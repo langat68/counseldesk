@@ -9,7 +9,6 @@ import {
     Phone,
     Building,
 } from "lucide-react";
-import styles from "./Settings.module.scss";
 
 const Settings: React.FC = () => {
     const [profile, setProfile] = useState({
@@ -38,48 +37,45 @@ const Settings: React.FC = () => {
     });
 
     return (
-        <div className={styles.settings}>
+        <div>
             {/* Header */}
-            <header className={styles.header}>
+            <header>
                 <h1>Settings</h1>
                 <p>Manage your account and application preferences</p>
             </header>
 
-            <div className={styles.grid}>
+            <div>
                 {/* Profile Settings */}
-                <section className={styles.card}>
-                    <h2 className={styles.cardTitle}>
-                        <User size={18} className={styles.icon} />
-                        Profile Information
+                <section>
+                    <h2>
+                        <User size={18} /> Profile Information
                     </h2>
-                    <div className={styles.cardContent}>
-                        <div className={styles.twoCol}>
-                            <div className={styles.field}>
-                                <label htmlFor="firstName">First Name</label>
-                                <input
-                                    id="firstName"
-                                    value={profile.firstName}
-                                    onChange={(e) =>
-                                        setProfile({ ...profile, firstName: e.target.value })
-                                    }
-                                />
-                            </div>
-                            <div className={styles.field}>
-                                <label htmlFor="lastName">Last Name</label>
-                                <input
-                                    id="lastName"
-                                    value={profile.lastName}
-                                    onChange={(e) =>
-                                        setProfile({ ...profile, lastName: e.target.value })
-                                    }
-                                />
-                            </div>
+                    <div>
+                        <div>
+                            <label htmlFor="firstName">First Name</label>
+                            <input
+                                id="firstName"
+                                value={profile.firstName}
+                                onChange={(e) =>
+                                    setProfile({ ...profile, firstName: e.target.value })
+                                }
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="lastName">Last Name</label>
+                            <input
+                                id="lastName"
+                                value={profile.lastName}
+                                onChange={(e) =>
+                                    setProfile({ ...profile, lastName: e.target.value })
+                                }
+                            />
                         </div>
 
-                        <div className={styles.field}>
+                        <div>
                             <label htmlFor="email">Email Address</label>
-                            <div className={styles.inputIcon}>
-                                <Mail size={16} className={styles.iconLeft} />
+                            <div>
+                                <Mail size={16} />
                                 <input
                                     id="email"
                                     type="email"
@@ -91,10 +87,10 @@ const Settings: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className={styles.field}>
+                        <div>
                             <label htmlFor="phone">Phone Number</label>
-                            <div className={styles.inputIcon}>
-                                <Phone size={16} className={styles.iconLeft} />
+                            <div>
+                                <Phone size={16} />
                                 <input
                                     id="phone"
                                     value={profile.phone}
@@ -105,7 +101,7 @@ const Settings: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className={styles.field}>
+                        <div>
                             <label htmlFor="title">Job Title</label>
                             <input
                                 id="title"
@@ -116,10 +112,10 @@ const Settings: React.FC = () => {
                             />
                         </div>
 
-                        <div className={styles.field}>
+                        <div>
                             <label htmlFor="firm">Law Firm</label>
-                            <div className={styles.inputIcon}>
-                                <Building size={16} className={styles.iconLeft} />
+                            <div>
+                                <Building size={16} />
                                 <input
                                     id="firm"
                                     value={profile.firm}
@@ -130,25 +126,21 @@ const Settings: React.FC = () => {
                             </div>
                         </div>
 
-                        <button className={styles.primaryBtn}>
-                            <Save size={16} className={styles.icon} />
-                            Update Profile
+                        <button>
+                            <Save size={16} /> Update Profile
                         </button>
                     </div>
                 </section>
 
                 {/* Notifications */}
-                <section className={styles.card}>
-                    <h2 className={styles.cardTitle}>
-                        <Bell size={18} className={styles.icon} />
-                        Notifications
+                <section>
+                    <h2>
+                        <Bell size={18} /> Notifications
                     </h2>
-                    <div className={styles.cardContent}>
+                    <div>
                         {Object.entries(notifications).map(([key, value]) => (
-                            <div key={key} className={styles.toggleRow}>
-                                <div>
-                                    <p className={styles.label}>{key}</p>
-                                </div>
+                            <div key={key}>
+                                <p>{key}</p>
                                 <input
                                     type="checkbox"
                                     checked={value}
@@ -165,20 +157,22 @@ const Settings: React.FC = () => {
                 </section>
 
                 {/* Preferences */}
-                <section className={styles.card}>
-                    <h2 className={styles.cardTitle}>
-                        <Palette size={18} className={styles.icon} />
-                        App Preferences
+                <section>
+                    <h2>
+                        <Palette size={18} /> App Preferences
                     </h2>
-                    <div className={styles.cardContent}>
+                    <div>
                         {Object.entries(preferences).map(([key, value]) => (
-                            <div key={key} className={styles.toggleRow}>
-                                <p className={styles.label}>{key}</p>
+                            <div key={key}>
+                                <p>{key}</p>
                                 <input
                                     type="checkbox"
                                     checked={value}
                                     onChange={(e) =>
-                                        setPreferences({ ...preferences, [key]: e.target.checked })
+                                        setPreferences({
+                                            ...preferences,
+                                            [key]: e.target.checked,
+                                        })
                                     }
                                 />
                             </div>
@@ -187,19 +181,16 @@ const Settings: React.FC = () => {
                 </section>
 
                 {/* Security */}
-                <section className={styles.card}>
-                    <h2 className={styles.cardTitle}>
-                        <Shield size={18} className={styles.icon} />
-                        Security & Privacy
+                <section>
+                    <h2>
+                        <Shield size={18} /> Security & Privacy
                     </h2>
-                    <div className={styles.cardContent}>
-                        <button className={styles.outlineBtn}>Change Password</button>
-                        <button className={styles.outlineBtn}>Two-Factor Authentication</button>
-                        <button className={styles.outlineBtn}>Active Sessions</button>
-                        <button className={styles.outlineBtn}>Data Export</button>
-                        <button className={`${styles.outlineBtn} ${styles.dangerBtn}`}>
-                            Delete Account
-                        </button>
+                    <div>
+                        <button>Change Password</button>
+                        <button>Two-Factor Authentication</button>
+                        <button>Active Sessions</button>
+                        <button>Data Export</button>
+                        <button>Delete Account</button>
                     </div>
                 </section>
             </div>

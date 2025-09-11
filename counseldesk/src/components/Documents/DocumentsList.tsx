@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-    Plus,
     Search,
     FileText,
     Download,
@@ -10,7 +9,6 @@ import {
     Folder,
 } from "lucide-react";
 import { format } from "date-fns";
-import styles from "./DocumentsList.module.scss";
 
 // Mock documents data
 const mockDocuments = [
@@ -59,12 +57,12 @@ const mockDocuments = [
 const FileIcon = ({ type }: { type: string }) => {
     switch (type.toLowerCase()) {
         case "pdf":
-            return <FileText className={`${styles.icon} ${styles.pdf}`} />;
+            return <FileText />;
         case "docx":
         case "doc":
-            return <FileText className={`${styles.icon} ${styles.doc}`} />;
+            return <FileText />;
         default:
-            return <FileText className={`${styles.icon}`} />;
+            return <FileText />;
     }
 };
 
@@ -95,39 +93,34 @@ const DocumentsList: React.FC = () => {
     const documentTypes = ["all", ...new Set(mockDocuments.map((d) => d.type))];
 
     return (
-        <div className={styles.container}>
+        <div>
             {/* Header */}
-            <div className={styles.header}>
+            <div>
                 <div>
-                    <h1 className={styles.title}>Documents</h1>
-                    <p className={styles.subtitle}>
-                        Manage case files and legal documents
-                    </p>
+                    <h1>Documents</h1>
+                    <p>Manage case files and legal documents</p>
                 </div>
-                <button className={styles.primaryButton}>
+                <button>
                     <Upload size={16} /> Upload Documents
                 </button>
             </div>
 
             {/* Filters & Search */}
-            <div className={styles.card}>
-                <div className={styles.filters}>
-                    <div className={styles.searchWrapper}>
-                        <Search className={styles.searchIcon} />
+            <div>
+                <div>
+                    <div>
+                        <Search />
                         <input
                             type="text"
                             placeholder="Search documents, cases, or tags..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className={styles.searchInput}
                         />
                     </div>
-                    <div className={styles.filterButtons}>
+                    <div>
                         {documentTypes.map((type) => (
                             <button
                                 key={type}
-                                className={`${styles.filterButton} ${typeFilter === type ? styles.active : ""
-                                    }`}
                                 onClick={() => setTypeFilter(type)}
                             >
                                 {type === "all" ? "All" : type.toUpperCase()}
@@ -143,9 +136,9 @@ const DocumentsList: React.FC = () => {
             </div>
 
             {/* Stats */}
-            <div className={styles.statsGrid}>
-                <div className={styles.card}>
-                    <div className={styles.statItem}>
+            <div>
+                <div>
+                    <div>
                         <div>
                             <p>Total Documents</p>
                             <h2>{mockDocuments.length}</h2>
@@ -153,19 +146,19 @@ const DocumentsList: React.FC = () => {
                         <Folder size={32} />
                     </div>
                 </div>
-                <div className={styles.card}>
-                    <div className={styles.statItem}>
+                <div>
+                    <div>
                         <div>
                             <p>PDF Files</p>
-                            <h2 className={styles.red}>
+                            <h2>
                                 {mockDocuments.filter((d) => d.type === "PDF").length}
                             </h2>
                         </div>
-                        <FileText size={32} className={styles.red} />
+                        <FileText size={32} />
                     </div>
                 </div>
-                <div className={styles.card}>
-                    <div className={styles.statItem}>
+                <div>
+                    <div>
                         <div>
                             <p>This Month</p>
                             <h2>
@@ -179,8 +172,8 @@ const DocumentsList: React.FC = () => {
                         <Upload size={32} />
                     </div>
                 </div>
-                <div className={styles.card}>
-                    <div className={styles.statItem}>
+                <div>
+                    <div>
                         <div>
                             <p>Total Size</p>
                             <h2>
@@ -195,33 +188,31 @@ const DocumentsList: React.FC = () => {
             </div>
 
             {/* Documents */}
-            <div className={styles.docsGrid}>
+            <div>
                 {filteredDocuments.map((document) => (
-                    <div key={document.id} className={styles.card}>
-                        <div className={styles.docRow}>
+                    <div key={document.id}>
+                        <div>
                             <FileIcon type={document.type} />
-                            <div className={styles.docInfo}>
-                                <h3 className={styles.docName}>{document.name}</h3>
-                                <div className={styles.docMeta}>
+                            <div>
+                                <h3>{document.name}</h3>
+                                <div>
                                     <span>Case: {document.caseName}</span>
                                     <span>{formatFileSize(document.size)}</span>
                                     <span>{format(document.uploadedAt, "MMM d, yyyy")}</span>
                                 </div>
-                                <div className={styles.tags}>
+                                <div>
                                     {document.tags.slice(0, 3).map((tag) => (
-                                        <span key={tag} className={styles.tag}>
-                                            {tag}
-                                        </span>
+                                        <span key={tag}>{tag}</span>
                                     ))}
                                     {document.tags.length > 3 && (
-                                        <span className={styles.tag}>
+                                        <span>
                                             +{document.tags.length - 3} more
                                         </span>
                                     )}
                                 </div>
                             </div>
 
-                            <div className={styles.docActions}>
+                            <div>
                                 <button>
                                     <Eye size={16} />
                                 </button>
@@ -238,8 +229,8 @@ const DocumentsList: React.FC = () => {
             </div>
 
             {filteredDocuments.length === 0 && (
-                <div className={styles.card}>
-                    <div className={styles.empty}>
+                <div>
+                    <div>
                         <FileText size={40} />
                         <h3>No documents found</h3>
                         <p>
@@ -247,7 +238,7 @@ const DocumentsList: React.FC = () => {
                                 ? "Try adjusting your search criteria"
                                 : "Get started by uploading your first document"}
                         </p>
-                        <button className={styles.primaryButton}>
+                        <button>
                             <Upload size={16} /> Upload Documents
                         </button>
                     </div>

@@ -9,7 +9,7 @@ import {
     CheckCircle,
     Plus,
 } from "lucide-react";
-import { useStore } from "@/store/useStore";
+import { useStore } from "../../Store/userstore";
 import { format } from "date-fns";
 import styles from "./Dashboard.module.scss";
 

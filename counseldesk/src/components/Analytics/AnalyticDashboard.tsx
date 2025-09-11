@@ -54,9 +54,10 @@ interface MetricCardProps {
     title: string;
     value: string;
     change: string;
-    icon: React.ElementType;
+    icon: React.ElementType;  // <--- this is fine
     trend: "up" | "down";
 }
+
 
 const MetricCard: React.FC<MetricCardProps> = ({ title, value, change, icon: Icon, trend }) => (
     <div style={{ border: "1px solid #ddd", borderRadius: "12px", padding: "16px" }}>

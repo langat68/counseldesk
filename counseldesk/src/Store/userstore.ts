@@ -14,13 +14,24 @@ interface Case {
 interface Client {
     id: string;
     name: string;
+    email: string;
+    phone: string;
+    company?: string;
+    createdAt: Date;
+    status: "active" | "inactive";
 }
+
+type View = "dashboard" | "clients" | "cases" | "documents" | "calendar";
 
 interface StoreState {
     cases: Case[];
     clients: Client[];
+    currentView: View;
+    setCurrentView: (view: View) => void;
     addCase: (newCase: Case) => void;
     updateCase: (id: string, updates: Partial<Case>) => void;
+    addClient: (newClient: Client) => void;
+    updateClient: (id: string, updates: Partial<Client>) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -56,9 +67,27 @@ export const useStore = create<StoreState>((set) => ({
         },
     ],
     clients: [
-        { id: "c1", name: "Acme Corp" },
-        { id: "c2", name: "John Doe" },
+        {
+            id: "c1",
+            name: "Acme Corp",
+            email: "contact@acme.com",
+            phone: "+1-555-1111",
+            company: "Acme Corp",
+            createdAt: new Date("2022-04-15"),
+            status: "active",
+        },
+        {
+            id: "c2",
+            name: "John Doe",
+            email: "john@example.com",
+            phone: "+1-555-2222",
+            company: "Doe & Partners",
+            createdAt: new Date("2023-01-10"),
+            status: "inactive",
+        },
     ],
+    currentView: "dashboard",
+    setCurrentView: (view) => set({ currentView: view }),
     addCase: (newCase) =>
         set((state) => ({
             cases: [...state.cases, newCase],
@@ -66,6 +95,16 @@ export const useStore = create<StoreState>((set) => ({
     updateCase: (id, updates) =>
         set((state) => ({
             cases: state.cases.map((c) =>
+                c.id === id ? { ...c, ...updates } : c
+            ),
+        })),
+    addClient: (newClient) =>
+        set((state) => ({
+            clients: [...state.clients, newClient],
+        })),
+    updateClient: (id, updates) =>
+        set((state) => ({
+            clients: state.clients.map((c) =>
                 c.id === id ? { ...c, ...updates } : c
             ),
         })),
