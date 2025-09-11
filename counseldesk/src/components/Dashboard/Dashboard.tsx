@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { useStore } from "../../Store/userstore";
 import { format } from "date-fns";
-import styles from "./Dashboard.module.scss";
 
 type Trend = { value: string; positive: boolean };
 
@@ -28,21 +27,18 @@ const OverviewCard = ({
     icon: React.ElementType;
     trend?: Trend;
 }) => (
-    <div className={styles.card}>
-        <div className={styles.cardHeader}>
-            <span className={styles.cardTitle}>{title}</span>
-            <Icon size={20} className={styles.iconPrimary} />
+    <div>
+        <div>
+            <span>{title}</span>
+            <Icon size={20} />
         </div>
-        <div className={styles.cardContent}>
-            <div className={styles.bigValue}>{value}</div>
-            <div className={styles.subtitleRow}>
-                <p className={styles.subtitle}>{subtitle}</p>
+        <div>
+            <div>{value}</div>
+            <div>
+                <p>{subtitle}</p>
                 {trend && (
-                    <span
-                        className={`${styles.trend} ${trend.positive ? styles.trendPositive : styles.trendNegative
-                            }`}
-                    >
-                        <TrendingUp size={14} className={styles.trendIcon} />
+                    <span>
+                        <TrendingUp size={14} />
                         {trend.value}
                     </span>
                 )}
@@ -62,26 +58,24 @@ const QuickAction = ({
     icon: React.ElementType;
     onClick: () => void;
 }) => (
-    <button className={styles.quickAction} onClick={onClick}>
-        <div className={styles.quickActionHeader}>
-            <Icon size={18} className={styles.iconPrimary} />
-            <span className={styles.quickActionTitle}>{title}</span>
+    <button onClick={onClick}>
+        <div>
+            <Icon size={18} />
+            <span>{title}</span>
         </div>
-        <p className={styles.quickActionDesc}>{description}</p>
+        <p>{description}</p>
     </button>
 );
 
 const StatusBadge = ({ status }: { status: string }) => {
-    const variants: Record<string, { className: string; text: string }> = {
-        open: { className: styles.badgeOpen, text: "Open" },
-        closed: { className: styles.badgeClosed, text: "Closed" },
-        pending: { className: styles.badgePending, text: "Pending" },
-        "in-review": { className: styles.badgeReview, text: "In Review" },
+    const variants: Record<string, string> = {
+        open: "Open",
+        closed: "Closed",
+        pending: "Pending",
+        "in-review": "In Review",
     };
 
-    const variant = variants[status] || variants.open;
-
-    return <span className={`${styles.badge} ${variant.className}`}>{variant.text}</span>;
+    return <span>{variants[status] || "Open"}</span>;
 };
 
 const Dashboard: React.FC = () => {
@@ -92,24 +86,21 @@ const Dashboard: React.FC = () => {
     const recentCases = cases.slice(0, 5);
 
     return (
-        <div className={styles.dashboard}>
+        <div>
             {/* Header */}
-            <div className={styles.header}>
+            <div>
                 <div>
                     <h1>Dashboard</h1>
                     <p>Welcome back, John. Here's what's happening.</p>
                 </div>
-                <button
-                    className={styles.primaryBtn}
-                    onClick={() => setCurrentView("cases")}
-                >
+                <button onClick={() => setCurrentView("cases")}>
                     <Plus size={16} />
                     New Case
                 </button>
             </div>
 
             {/* Overview Cards */}
-            <div className={styles.gridOverview}>
+            <div>
                 <OverviewCard
                     title="Active Clients"
                     value={activeClients.toString()}
@@ -140,33 +131,28 @@ const Dashboard: React.FC = () => {
                 />
             </div>
 
-            <div className={styles.gridMain}>
+            <div>
                 {/* Recent Cases */}
-                <div className={styles.recentCases}>
-                    <div className={styles.cardHeader}>
+                <div>
+                    <div>
                         <h2>Recent Cases</h2>
-                        <button
-                            className={styles.linkBtn}
-                            onClick={() => setCurrentView("cases")}
-                        >
+                        <button onClick={() => setCurrentView("cases")}>
                             View All
                         </button>
                     </div>
-                    <div className={styles.caseList}>
+                    <div>
                         {recentCases.map((case_) => (
-                            <div key={case_.id} className={styles.caseItem}>
-                                <div className={styles.caseInfo}>
-                                    <Scale size={16} className={styles.iconPrimary} />
-                                    <div className={styles.caseText}>
-                                        <p className={styles.caseTitle}>{case_.title}</p>
-                                        <p className={styles.caseDesc}>{case_.description}</p>
+                            <div key={case_.id}>
+                                <div>
+                                    <Scale size={16} />
+                                    <div>
+                                        <p>{case_.title}</p>
+                                        <p>{case_.description}</p>
                                     </div>
                                 </div>
-                                <div className={styles.caseMeta}>
+                                <div>
                                     <StatusBadge status={case_.status} />
-                                    <span className={styles.caseDate}>
-                                        {format(case_.updatedAt, "MMM d")}
-                                    </span>
+                                    <span>{format(case_.updatedAt, "MMM d")}</span>
                                 </div>
                             </div>
                         ))}
@@ -174,9 +160,9 @@ const Dashboard: React.FC = () => {
                 </div>
 
                 {/* Quick Actions */}
-                <div className={styles.quickActions}>
+                <div>
                     <h2>Quick Actions</h2>
-                    <div className={styles.quickActionList}>
+                    <div>
                         <QuickAction
                             title="Add New Client"
                             description="Register a new client profile"
@@ -206,26 +192,24 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Alerts */}
-            <div className={styles.alerts}>
-                <h2 className={styles.cardTitle}>
-                    <AlertTriangle size={18} className={styles.iconWarning} />
+            <div>
+                <h2>
+                    <AlertTriangle size={18} />
                     Urgent Items
                 </h2>
-                <div className={styles.alertGrid}>
-                    <div className={`${styles.alert} ${styles.alertWarning}`}>
-                        <Clock size={14} className={styles.iconWarning} />
+                <div>
+                    <div>
+                        <Clock size={14} />
                         <div>
-                            <p className={styles.alertTitle}>Contract Review Due</p>
-                            <p className={styles.alertDesc}>
-                                Johnson & Associates - Due tomorrow
-                            </p>
+                            <p>Contract Review Due</p>
+                            <p>Johnson & Associates - Due tomorrow</p>
                         </div>
                     </div>
-                    <div className={`${styles.alert} ${styles.alertSuccess}`}>
-                        <CheckCircle size={14} className={styles.iconSuccess} />
+                    <div>
+                        <CheckCircle size={14} />
                         <div>
-                            <p className={styles.alertTitle}>Document Signed</p>
-                            <p className={styles.alertDesc}>TechCorp NDA completed</p>
+                            <p>Document Signed</p>
+                            <p>TechCorp NDA completed</p>
                         </div>
                     </div>
                 </div>

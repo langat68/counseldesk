@@ -18,7 +18,6 @@ import {
     isSameDay,
     isToday,
 } from "date-fns";
-import styles from "./CalendarView.module.scss";
 
 // Mock appointments
 const mockAppointments = [
@@ -54,13 +53,6 @@ const mockAppointments = [
     },
 ];
 
-const AppointmentTypeClass: Record<string, string> = {
-    consultation: "consultation",
-    hearing: "hearing",
-    deposition: "deposition",
-    meeting: "meeting",
-};
-
 const CalendarView: React.FC = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -78,151 +70,119 @@ const CalendarView: React.FC = () => {
     const selectedDateAppointments = getAppointmentsForDate(selectedDate);
 
     return (
-        <div className={styles.container}>
+        <div>
             {/* Header */}
-            <div className={styles.header}>
-                <div>
-                    <h1 className={styles.title}>Calendar</h1>
-                    <p className={styles.subtitle}>Schedule and manage appointments</p>
-                </div>
-                <button className={styles.primaryButton}>
-                    <Plus size={16} />
-                    New Appointment
+            <div>
+                <h1>Calendar</h1>
+                <p>Schedule and manage appointments</p>
+                <button>
+                    <Plus size={16} /> New Appointment
                 </button>
             </div>
 
-            <div className={styles.layout}>
+            <div style={{ display: "flex", gap: "2rem" }}>
                 {/* Calendar */}
-                <div className={styles.calendarWrapper}>
-                    <div className={styles.card}>
-                        <div className={styles.cardHeader}>
-                            <h2>{format(currentDate, "MMMM yyyy")}</h2>
-                            <div className={styles.navButtons}>
-                                <button onClick={prevMonth}>
-                                    <ChevronLeft size={16} />
-                                </button>
-                                <button onClick={nextMonth}>
-                                    <ChevronRight size={16} />
-                                </button>
+                <div>
+                    <h2>
+                        {format(currentDate, "MMMM yyyy")}
+                        <button onClick={prevMonth}>
+                            <ChevronLeft size={16} />
+                        </button>
+                        <button onClick={nextMonth}>
+                            <ChevronRight size={16} />
+                        </button>
+                    </h2>
+
+                    {/* Weekdays */}
+                    <div style={{ display: "flex" }}>
+                        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                            <div key={day} style={{ flex: 1, textAlign: "center" }}>
+                                {day}
                             </div>
-                        </div>
+                        ))}
+                    </div>
 
-                        {/* Calendar Grid */}
-                        <div className={styles.weekdays}>
-                            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                                <div key={day}>{day}</div>
-                            ))}
-                        </div>
+                    {/* Days */}
+                    <div style={{ display: "flex", flexWrap: "wrap" }}>
+                        {daysInMonth.map((day) => {
+                            const dayAppointments = getAppointmentsForDate(day);
+                            const isSelected = isSameDay(day, selectedDate);
+                            const isTodayDate = isToday(day);
 
-                        <div className={styles.daysGrid}>
-                            {daysInMonth.map((day) => {
-                                const dayAppointments = getAppointmentsForDate(day);
-                                const isSelected = isSameDay(day, selectedDate);
-                                const isTodayDate = isToday(day);
-
-                                return (
-                                    <button
-                                        key={day.toISOString()}
-                                        onClick={() => setSelectedDate(day)}
-                                        className={`${styles.dayCell} ${isSelected ? styles.selected : ""
-                                            } ${isTodayDate && !isSelected ? styles.today : ""}`}
-                                    >
-                                        <div>{format(day, "d")}</div>
-                                        {dayAppointments.length > 0 && (
-                                            <div className={styles.appointmentDots}>
-                                                {dayAppointments.slice(0, 2).map((_, idx) => (
-                                                    <span key={idx} className={styles.dot}></span>
-                                                ))}
-                                                {dayAppointments.length > 2 && (
-                                                    <span className={styles.more}>
-                                                        +{dayAppointments.length - 2}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        )}
-                                    </button>
-                                );
-                            })}
-                        </div>
+                            return (
+                                <button
+                                    key={day.toISOString()}
+                                    onClick={() => setSelectedDate(day)}
+                                    style={{
+                                        width: "14%",
+                                        border: "1px solid #ccc",
+                                        background: isSelected
+                                            ? "#d1e7ff"
+                                            : isTodayDate
+                                                ? "#f8f9fa"
+                                                : "white",
+                                    }}
+                                >
+                                    {format(day, "d")}
+                                    {dayAppointments.length > 0 && (
+                                        <div>
+                                            {dayAppointments.length} event(s)
+                                        </div>
+                                    )}
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
 
-                {/* Right Sidebar */}
-                <div className={styles.sidebar}>
+                {/* Sidebar */}
+                <div style={{ minWidth: "300px" }}>
                     {/* Selected Date */}
-                    <div className={styles.card}>
-                        <div className={styles.cardHeader}>
-                            <h3>
-                                <CalendarIcon size={18} />{" "}
-                                {format(selectedDate, "EEEE, MMMM d")}
-                            </h3>
-                        </div>
-                        <div className={styles.cardBody}>
-                            {selectedDateAppointments.length > 0 ? (
-                                <div className={styles.appointmentsList}>
-                                    {selectedDateAppointments.map((apt) => (
-                                        <div key={apt.id} className={styles.appointmentCard}>
-                                            <div className={styles.appointmentHeader}>
-                                                <h4>{apt.title}</h4>
-                                                <span
-                                                    className={`${styles.badge} ${styles[
-                                                        AppointmentTypeClass[
-                                                        apt.type as keyof typeof AppointmentTypeClass
-                                                        ]
-                                                        ]
-                                                        }`}
-                                                >
-                                                    {apt.type}
-                                                </span>
-                                            </div>
-                                            <p className={styles.description}>{apt.description}</p>
-                                            <div className={styles.meta}>
-                                                <div>
-                                                    <Clock size={14} />{" "}
-                                                    {format(apt.date, "h:mm a")} ({apt.duration} min)
-                                                </div>
-                                                <div>
-                                                    <MapPin size={14} /> {apt.location}
-                                                </div>
-                                                <div>
-                                                    <Users size={14} /> {apt.attendees.join(", ")}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className={styles.empty}>
-                                    <CalendarIcon size={40} />
-                                    <p>No appointments scheduled</p>
-                                    <button className={styles.secondaryButton}>
-                                        <Plus size={14} /> Schedule Meeting
-                                    </button>
-                                </div>
-                            )}
-                        </div>
+                    <div>
+                        <h3>
+                            <CalendarIcon size={18} /> {format(selectedDate, "EEEE, MMMM d")}
+                        </h3>
+                        {selectedDateAppointments.length > 0 ? (
+                            <ul>
+                                {selectedDateAppointments.map((apt) => (
+                                    <li key={apt.id}>
+                                        <h4>{apt.title}</h4>
+                                        <p>{apt.description}</p>
+                                        <p>
+                                            <Clock size={14} /> {format(apt.date, "h:mm a")} (
+                                            {apt.duration} min)
+                                        </p>
+                                        <p>
+                                            <MapPin size={14} /> {apt.location}
+                                        </p>
+                                        <p>
+                                            <Users size={14} /> {apt.attendees.join(", ")}
+                                        </p>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <div>
+                                <CalendarIcon size={40} />
+                                <p>No appointments scheduled</p>
+                                <button>
+                                    <Plus size={14} /> Schedule Meeting
+                                </button>
+                            </div>
+                        )}
                     </div>
 
                     {/* Upcoming */}
-                    <div className={styles.card}>
-                        <div className={styles.cardHeader}>
-                            <h3>Upcoming</h3>
-                        </div>
-                        <div className={styles.cardBody}>
+                    <div>
+                        <h3>Upcoming</h3>
+                        <ul>
                             {mockAppointments.slice(0, 3).map((apt) => (
-                                <div key={apt.id} className={styles.upcomingItem}>
-                                    <div className={styles.upcomingIcon}>
-                                        <CalendarIcon size={16} />
-                                    </div>
-                                    <div>
-                                        <p className={styles.upcomingTitle}>{apt.title}</p>
-                                        <p className={styles.upcomingDate}>
-                                            {format(apt.date, "MMM d, h:mm a")}
-                                        </p>
-                                    </div>
-                                </div>
+                                <li key={apt.id}>
+                                    <CalendarIcon size={16} /> {apt.title} –{" "}
+                                    {format(apt.date, "MMM d, h:mm a")}
+                                </li>
                             ))}
-                        </div>
+                        </ul>
                     </div>
                 </div>
             </div>

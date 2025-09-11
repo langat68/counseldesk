@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import { useStore } from "../../Store/userstore";
 import { format } from "date-fns";
-import styles from "./ClientsList.module.scss";
 
 const ClientsList: React.FC = () => {
     const { clients } = useStore();
@@ -25,105 +24,90 @@ const ClientsList: React.FC = () => {
             (client.company?.toLowerCase().includes(searchTerm.toLowerCase()) ??
                 false);
 
-        const matchesStatus = statusFilter === "all" || client.status === statusFilter;
+        const matchesStatus =
+            statusFilter === "all" || client.status === statusFilter;
 
         return matchesSearch && matchesStatus;
     });
 
     return (
-        <div className={styles.container}>
+        <div>
             {/* Header */}
-            <div className={styles.header}>
+            <div>
                 <div>
-                    <h1 className={styles.title}>Clients</h1>
-                    <p className={styles.subtitle}>Manage your client relationships</p>
+                    <h1>Clients</h1>
+                    <p>Manage your client relationships</p>
                 </div>
-                <button className={styles.primaryBtn}>
-                    <Plus className={styles.icon} />
+                <button>
+                    <Plus />
                     Add Client
                 </button>
             </div>
 
             {/* Search + Filters */}
-            <div className={styles.card}>
-                <div className={styles.filters}>
-                    <div className={styles.searchWrapper}>
-                        <Search className={styles.searchIcon} />
+            <div>
+                <div>
+                    <div>
+                        <Search />
                         <input
                             type="text"
                             placeholder="Search clients..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className={styles.input}
                         />
                     </div>
-                    <div className={styles.filterBtns}>
-                        <button
-                            className={`${styles.filterBtn} ${statusFilter === "all" ? styles.active : ""
-                                }`}
-                            onClick={() => setStatusFilter("all")}
-                        >
+                    <div>
+                        <button onClick={() => setStatusFilter("all")}>
                             All ({clients.length})
                         </button>
-                        <button
-                            className={`${styles.filterBtn} ${statusFilter === "active" ? styles.active : ""
-                                }`}
-                            onClick={() => setStatusFilter("active")}
-                        >
-                            Active ({clients.filter((c) => c.status === "active").length})
+                        <button onClick={() => setStatusFilter("active")}>
+                            Active (
+                            {clients.filter((c) => c.status === "active").length})
                         </button>
-                        <button
-                            className={`${styles.filterBtn} ${statusFilter === "inactive" ? styles.active : ""
-                                }`}
-                            onClick={() => setStatusFilter("inactive")}
-                        >
-                            Inactive ({clients.filter((c) => c.status === "inactive").length})
+                        <button onClick={() => setStatusFilter("inactive")}>
+                            Inactive (
+                            {clients.filter((c) => c.status === "inactive").length})
                         </button>
                     </div>
                 </div>
             </div>
 
             {/* Clients Grid */}
-            <div className={styles.grid}>
+            <div>
                 {filteredClients.map((client) => (
-                    <div key={client.id} className={styles.clientCard}>
-                        <div className={styles.cardHeader}>
-                            <div className={styles.avatar}>
+                    <div key={client.id}>
+                        <div>
+                            <div>
                                 {client.name
                                     .split(" ")
                                     .map((n) => n[0])
                                     .join("")}
                             </div>
-                            <div className={styles.clientInfo}>
-                                <h3 className={styles.clientName}>{client.name}</h3>
-                                <span
-                                    className={`${styles.status} ${client.status === "active" ? styles.active : styles.inactive
-                                        }`}
-                                >
-                                    {client.status}
-                                </span>
+                            <div>
+                                <h3>{client.name}</h3>
+                                <span>{client.status}</span>
                             </div>
-                            <button className={styles.moreBtn}>
+                            <button>
                                 <MoreVertical size={16} />
                             </button>
                         </div>
 
-                        <div className={styles.cardContent}>
+                        <div>
                             {client.company && (
-                                <div className={styles.detailRow}>
+                                <div>
                                     <Building size={16} />
                                     <span>{client.company}</span>
                                 </div>
                             )}
-                            <div className={styles.detailRow}>
+                            <div>
                                 <Mail size={16} />
                                 <span>{client.email}</span>
                             </div>
-                            <div className={styles.detailRow}>
+                            <div>
                                 <Phone size={16} />
                                 <span>{client.phone}</span>
                             </div>
-                            <div className={styles.meta}>
+                            <div>
                                 Client since {format(client.createdAt, "MMM yyyy")}
                             </div>
                         </div>
@@ -133,16 +117,16 @@ const ClientsList: React.FC = () => {
 
             {/* Empty state */}
             {filteredClients.length === 0 && (
-                <div className={styles.emptyCard}>
-                    <Building className={styles.emptyIcon} />
+                <div>
+                    <Building />
                     <h3>No clients found</h3>
                     <p>
                         {searchTerm
                             ? "Try adjusting your search criteria"
                             : "Get started by adding your first client"}
                     </p>
-                    <button className={styles.primaryBtn}>
-                        <Plus className={styles.icon} />
+                    <button>
+                        <Plus />
                         Add Client
                     </button>
                 </div>
