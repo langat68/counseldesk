@@ -11,9 +11,8 @@ import {
     Hourglass,
     Eye,
 } from "lucide-react";
-import { useStore } from "@/store/useStore";
+import { useStore } from "../../Store/userstore";
 import { format } from "date-fns";
-import styles from "./CasesList.module.scss";
 
 interface StatusBadgeProps {
     status: string;
@@ -22,21 +21,20 @@ interface StatusBadgeProps {
 const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
     const variants: Record<
         string,
-        { className: string; text: string; icon: React.ElementType }
+        { text: string; icon: React.ElementType }
     > = {
-        open: { className: styles.statusOpen, text: "Open", icon: Scale },
-        closed: { className: styles.statusClosed, text: "Closed", icon: CheckCircle },
-        pending: { className: styles.statusPending, text: "Pending", icon: Clock },
-        "in-review": { className: styles.statusReview, text: "In Review", icon: Eye },
+        open: { text: "Open", icon: Scale },
+        closed: { text: "Closed", icon: CheckCircle },
+        pending: { text: "Pending", icon: Clock },
+        "in-review": { text: "In Review", icon: Eye },
     };
 
     const variant = variants[status] || variants.open;
     const Icon = variant.icon;
 
     return (
-        <span className={`${styles.badge} ${variant.className}`}>
-            <Icon size={14} className={styles.icon} />
-            {variant.text}
+        <span>
+            <Icon size={14} /> {variant.text}
         </span>
     );
 };
@@ -46,18 +44,7 @@ interface PriorityBadgeProps {
 }
 
 const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority }) => {
-    const variants: Record<string, string> = {
-        low: styles.priorityLow,
-        medium: styles.priorityMedium,
-        high: styles.priorityHigh,
-        urgent: styles.priorityUrgent,
-    };
-
-    return (
-        <span className={`${styles.badge} ${variants[priority]}`}>
-            {priority.toUpperCase()}
-        </span>
-    );
+    return <span>{priority.toUpperCase()}</span>;
 };
 
 const CasesList: React.FC = () => {
@@ -82,38 +69,35 @@ const CasesList: React.FC = () => {
     };
 
     return (
-        <div className={styles.container}>
+        <div>
             {/* Header */}
-            <div className={styles.header}>
+            <div>
                 <div>
-                    <h1 className={styles.title}>Cases</h1>
-                    <p className={styles.subtitle}>Manage and track all legal cases</p>
+                    <h1>Cases</h1>
+                    <p>Manage and track all legal cases</p>
                 </div>
-                <button className={styles.primaryButton}>
+                <button>
                     <Plus size={16} />
                     New Case
                 </button>
             </div>
 
             {/* Filters */}
-            <div className={styles.filtersCard}>
-                <div className={styles.filtersContent}>
-                    <div className={styles.searchWrapper}>
-                        <Search size={16} className={styles.searchIcon} />
+            <div>
+                <div>
+                    <div>
+                        <Search size={16} />
                         <input
                             type="text"
                             placeholder="Search cases..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className={styles.searchInput}
                         />
                     </div>
-                    <div className={styles.filterButtons}>
+                    <div>
                         {["all", "open", "in-review", "closed"].map((status) => (
                             <button
                                 key={status}
-                                className={`${styles.filterButton} ${statusFilter === status ? styles.activeFilter : ""
-                                    }`}
                                 onClick={() => setStatusFilter(status)}
                             >
                                 {status.charAt(0).toUpperCase() + status.slice(1)} (
@@ -128,51 +112,43 @@ const CasesList: React.FC = () => {
             </div>
 
             {/* Stats */}
-            <div className={styles.statsGrid}>
-                <div className={styles.statCard}>
-                    <div>
-                        <p>Total Cases</p>
-                        <h2>{cases.length}</h2>
-                    </div>
+            <div>
+                <div>
+                    <p>Total Cases</p>
+                    <h2>{cases.length}</h2>
                     <Scale size={24} />
                 </div>
-                <div className={styles.statCard}>
-                    <div>
-                        <p>Open</p>
-                        <h2>{cases.filter((c) => c.status === "open").length}</h2>
-                    </div>
+                <div>
+                    <p>Open</p>
+                    <h2>{cases.filter((c) => c.status === "open").length}</h2>
                     <AlertTriangle size={24} />
                 </div>
-                <div className={styles.statCard}>
-                    <div>
-                        <p>In Review</p>
-                        <h2>{cases.filter((c) => c.status === "in-review").length}</h2>
-                    </div>
+                <div>
+                    <p>In Review</p>
+                    <h2>{cases.filter((c) => c.status === "in-review").length}</h2>
                     <Hourglass size={24} />
                 </div>
-                <div className={styles.statCard}>
-                    <div>
-                        <p>Closed</p>
-                        <h2>{cases.filter((c) => c.status === "closed").length}</h2>
-                    </div>
+                <div>
+                    <p>Closed</p>
+                    <h2>{cases.filter((c) => c.status === "closed").length}</h2>
                     <CheckCircle size={24} />
                 </div>
             </div>
 
             {/* Cases List */}
-            <div className={styles.caseList}>
+            <div>
                 {filteredCases.map((case_) => (
-                    <div key={case_.id} className={styles.caseCard}>
-                        <div className={styles.caseHeader}>
+                    <div key={case_.id}>
+                        <div>
                             <h3>{case_.title}</h3>
                             <MoreVertical size={18} />
                         </div>
-                        <div className={styles.caseBadges}>
+                        <div>
                             <StatusBadge status={case_.status} />
                             <PriorityBadge priority={case_.priority} />
                         </div>
-                        <p className={styles.caseDescription}>{case_.description}</p>
-                        <div className={styles.caseMeta}>
+                        <p>{case_.description}</p>
+                        <div>
                             <span>
                                 <User size={14} /> {getClientName(case_.clientId)}
                             </span>
@@ -191,15 +167,15 @@ const CasesList: React.FC = () => {
             </div>
 
             {filteredCases.length === 0 && (
-                <div className={styles.emptyCard}>
-                    <Scale size={32} className={styles.emptyIcon} />
+                <div>
+                    <Scale size={32} />
                     <h3>No cases found</h3>
                     <p>
                         {searchTerm
                             ? "Try adjusting your search criteria"
                             : "Get started by creating your first case"}
                     </p>
-                    <button className={styles.primaryButton}>
+                    <button>
                         <Plus size={16} /> New Case
                     </button>
                 </div>
