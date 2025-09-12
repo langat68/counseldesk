@@ -9,6 +9,7 @@ import {
     Folder,
 } from "lucide-react";
 import { format } from "date-fns";
+import "../../Styling/DocumentsList.scss"
 
 // Mock documents data
 const mockDocuments = [

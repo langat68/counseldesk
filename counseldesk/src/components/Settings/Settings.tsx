@@ -10,6 +10,8 @@ import {
     Building,
 } from "lucide-react";
 
+import "../../Styling/Settings.scss"
+
 const Settings: React.FC = () => {
     const [profile, setProfile] = useState({
         firstName: "John",

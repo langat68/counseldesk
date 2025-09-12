@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useStore } from "../../Store/userstore";
 import { format } from "date-fns";
+import "../../Styling/CasesList.scss"
 
 interface StatusBadgeProps {
     status: string;

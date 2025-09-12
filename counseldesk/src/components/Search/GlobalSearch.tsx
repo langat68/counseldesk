@@ -9,6 +9,7 @@ import {
     ArrowRight,
 } from "lucide-react";
 import { format } from "date-fns";
+import "../../Styling/GlobalSearch.scss"
 
 // Mock search results
 const mockResults = {
