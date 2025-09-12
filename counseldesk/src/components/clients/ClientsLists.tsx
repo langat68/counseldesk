@@ -9,13 +9,12 @@ import {
 } from "lucide-react";
 import { useStore } from "../../Store/userstore";
 import { format } from "date-fns";
+import "../../Styling/CasesList.scss";
 
-const ClientsList: React.FC = () => {
+const ClientsList = () => {
     const { clients } = useStore();
     const [searchTerm, setSearchTerm] = useState("");
-    const [statusFilter, setStatusFilter] = useState<
-        "all" | "active" | "inactive"
-    >("all");
+    const [statusFilter, setStatusFilter] = useState("all");
 
     const filteredClients = clients.filter((client) => {
         const matchesSearch =
@@ -31,40 +30,52 @@ const ClientsList: React.FC = () => {
     });
 
     return (
-        <div>
+        <div className="clients-list">
             {/* Header */}
-            <div>
-                <div>
-                    <h1>Clients</h1>
-                    <p>Manage your client relationships</p>
+            <div className="clients-header">
+                <div className="header-content">
+                    <h1 className="header-title">Clients</h1>
+                    <p className="header-description">Manage your client relationships</p>
                 </div>
-                <button>
+                <button className="add-client-btn">
                     <Plus />
                     Add Client
                 </button>
             </div>
 
             {/* Search + Filters */}
-            <div>
-                <div>
-                    <div>
-                        <Search />
-                        <input
-                            type="text"
-                            placeholder="Search clients..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
+            <div className="clients-controls">
+                <div className="controls-container">
+                    <div className="search-box">
+                        <div className="search-input-wrapper">
+                            <Search className="search-icon" />
+                            <input
+                                type="text"
+                                className="search-input"
+                                placeholder="Search clients..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <button onClick={() => setStatusFilter("all")}>
+                    <div className="status-filters">
+                        <button
+                            className={`filter-btn ${statusFilter === "all" ? "active" : ""}`}
+                            onClick={() => setStatusFilter("all")}
+                        >
                             All ({clients.length})
                         </button>
-                        <button onClick={() => setStatusFilter("active")}>
+                        <button
+                            className={`filter-btn ${statusFilter === "active" ? "active" : ""}`}
+                            onClick={() => setStatusFilter("active")}
+                        >
                             Active (
                             {clients.filter((c) => c.status === "active").length})
                         </button>
-                        <button onClick={() => setStatusFilter("inactive")}>
+                        <button
+                            className={`filter-btn ${statusFilter === "inactive" ? "active" : ""}`}
+                            onClick={() => setStatusFilter("inactive")}
+                        >
                             Inactive (
                             {clients.filter((c) => c.status === "inactive").length})
                         </button>
@@ -73,41 +84,43 @@ const ClientsList: React.FC = () => {
             </div>
 
             {/* Clients Grid */}
-            <div>
+            <div className="clients-grid">
                 {filteredClients.map((client) => (
-                    <div key={client.id}>
-                        <div>
-                            <div>
+                    <div key={client.id} className="client-card">
+                        <div className="client-header">
+                            <div className="client-avatar">
                                 {client.name
                                     .split(" ")
                                     .map((n) => n[0])
                                     .join("")}
                             </div>
-                            <div>
-                                <h3>{client.name}</h3>
-                                <span>{client.status}</span>
+                            <div className="client-info">
+                                <h3 className="client-name">{client.name}</h3>
+                                <span className={`client-status status-${client.status}`}>
+                                    {client.status}
+                                </span>
                             </div>
-                            <button>
+                            <button className="client-menu-btn">
                                 <MoreVertical size={16} />
                             </button>
                         </div>
 
-                        <div>
+                        <div className="client-details">
                             {client.company && (
-                                <div>
-                                    <Building size={16} />
-                                    <span>{client.company}</span>
+                                <div className="detail-item">
+                                    <Building size={16} className="detail-icon" />
+                                    <span className="detail-text">{client.company}</span>
                                 </div>
                             )}
-                            <div>
-                                <Mail size={16} />
-                                <span>{client.email}</span>
+                            <div className="detail-item">
+                                <Mail size={16} className="detail-icon" />
+                                <span className="detail-text">{client.email}</span>
                             </div>
-                            <div>
-                                <Phone size={16} />
-                                <span>{client.phone}</span>
+                            <div className="detail-item">
+                                <Phone size={16} className="detail-icon" />
+                                <span className="detail-text">{client.phone}</span>
                             </div>
-                            <div>
+                            <div className="client-since">
                                 Client since {format(client.createdAt, "MMM yyyy")}
                             </div>
                         </div>
@@ -117,15 +130,15 @@ const ClientsList: React.FC = () => {
 
             {/* Empty state */}
             {filteredClients.length === 0 && (
-                <div>
-                    <Building />
-                    <h3>No clients found</h3>
-                    <p>
+                <div className="empty-state">
+                    <Building className="empty-icon" />
+                    <h3 className="empty-title">No clients found</h3>
+                    <p className="empty-description">
                         {searchTerm
                             ? "Try adjusting your search criteria"
                             : "Get started by adding your first client"}
                     </p>
-                    <button>
+                    <button className="empty-add-btn">
                         <Plus />
                         Add Client
                     </button>

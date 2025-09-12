@@ -1,0 +1,326 @@
+// Variables
+$primary-color: #d1e7ff;
+$border-color: #ccc;
+$background-light: #f8f9fa;
+$background-white: white;
+$text-color: #333;
+$text-muted: #666;
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+
+// Calendar View Container
+.calendar-view {
+    padding: $spacing-lg;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: $text-color;
+}
+
+// Header Section
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: $spacing-xl;
+
+    .header-content {
+        .header-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 0 $spacing-xs 0;
+        }
+
+        .header-description {
+            color: $text-muted;
+            margin: 0;
+        }
+    }
+
+    .new-appointment-btn {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+        padding: $spacing-sm $spacing-md;
+        background: $primary-color;
+        border: 1px solid $border-color;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+
+        &:hover {
+            background: darken($primary-color, 10%);
+        }
+    }
+}
+
+// Main Container
+.calendar-container {
+    display: flex;
+    gap: $spacing-xl;
+}
+
+// Calendar Main Section
+.calendar-main {
+    flex: 1;
+
+    .calendar-navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: $spacing-lg;
+
+        .month-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: $spacing-sm;
+
+            .nav-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.5rem;
+                height: 2.5rem;
+                background: $background-white;
+                border: 1px solid $border-color;
+                border-radius: 6px;
+                cursor: pointer;
+
+                &:hover {
+                    background: $background-light;
+                }
+            }
+        }
+    }
+
+    // Weekdays Header
+    .weekdays {
+        display: flex;
+        margin-bottom: $spacing-sm;
+
+        .weekday {
+            flex: 1;
+            text-align: center;
+            font-weight: 600;
+            color: $text-muted;
+            padding: $spacing-sm 0;
+        }
+    }
+
+    // Calendar Grid
+    .calendar-grid {
+        display: flex;
+        flex-wrap: wrap;
+        border: 1px solid $border-color;
+        border-radius: 8px;
+        overflow: hidden;
+
+        .calendar-day {
+            width: calc(100% / 7);
+            min-height: 80px;
+            border: 1px solid $border-color;
+            background: $background-white;
+            cursor: pointer;
+            padding: $spacing-sm;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                background: lighten($primary-color, 15%);
+            }
+
+            &.selected {
+                background: $primary-color;
+            }
+
+            &.today {
+                background: $background-light;
+                font-weight: 600;
+            }
+
+            &.selected.today {
+                background: $primary-color;
+            }
+
+            .day-number {
+                font-size: 1rem;
+                margin-bottom: $spacing-xs;
+            }
+
+            .day-events {
+                font-size: 0.75rem;
+                color: $text-muted;
+                background: rgba(0, 0, 0, 0.1);
+                padding: 2px 6px;
+                border-radius: 4px;
+            }
+        }
+    }
+}
+
+// Sidebar Section
+.calendar-sidebar {
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0 0 $spacing-md 0;
+    }
+
+    // Selected Date Section
+    .selected-date-section {
+        .appointments-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            .appointment-item {
+                background: $background-light;
+                border-radius: 8px;
+                padding: $spacing-md;
+                margin-bottom: $spacing-md;
+
+                .appointment-title {
+                    font-size: 1rem;
+                    font-weight: 600;
+                    margin: 0 0 $spacing-xs 0;
+                }
+
+                .appointment-description {
+                    color: $text-muted;
+                    margin: 0 0 $spacing-sm 0;
+                    font-size: 0.9rem;
+                }
+
+                .appointment-details {
+                    p {
+                        display: flex;
+                        align-items: center;
+                        gap: $spacing-xs;
+                        margin: $spacing-xs 0;
+                        font-size: 0.85rem;
+                        color: $text-muted;
+                    }
+                }
+            }
+        }
+
+        .no-appointments {
+            text-align: center;
+            padding: $spacing-xl 0;
+
+            .no-appointments-icon {
+                color: #ccc;
+                margin-bottom: $spacing-md;
+            }
+
+            .no-appointments-text {
+                color: $text-muted;
+                margin: 0 0 $spacing-md 0;
+            }
+
+            .schedule-btn {
+                display: flex;
+                align-items: center;
+                gap: $spacing-xs;
+                padding: $spacing-sm $spacing-md;
+                background: $primary-color;
+                border: 1px solid $border-color;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 0.9rem;
+                margin: 0 auto;
+
+                &:hover {
+                    background: darken($primary-color, 10%);
+                }
+            }
+        }
+    }
+
+    // Upcoming Section
+    .upcoming-section {
+        .upcoming-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            .upcoming-item {
+                display: flex;
+                align-items: center;
+                gap: $spacing-sm;
+                padding: $spacing-sm 0;
+                border-bottom: 1px solid lighten($border-color, 20%);
+                font-size: 0.9rem;
+                color: $text-muted;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &:hover {
+                    color: $text-color;
+                }
+            }
+        }
+    }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .calendar-container {
+        flex-direction: column;
+        gap: $spacing-lg;
+    }
+
+    .calendar-sidebar {
+        min-width: auto;
+    }
+
+    .calendar-header {
+        flex-direction: column;
+        gap: $spacing-md;
+        align-items: flex-start;
+    }
+
+    .calendar-navigation {
+        flex-direction: column;
+        gap: $spacing-md;
+        align-items: flex-start;
+
+        .nav-buttons {
+            align-self: flex-end;
+        }
+    }
+
+    .calendar-grid {
+        .calendar-day {
+            min-height: 60px;
+            padding: $spacing-xs;
+
+            .day-number {
+                font-size: 0.9rem;
+            }
+
+            .day-events {
+                font-size: 0.7rem;
+            }
+        }
+    }
+}

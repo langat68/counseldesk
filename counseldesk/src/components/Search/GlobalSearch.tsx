@@ -9,7 +9,7 @@ import {
     ArrowRight,
 } from "lucide-react";
 import { format } from "date-fns";
-import "../../Styling/GlobalSearch.scss"
+import "./GlobalSearch.scss";
 
 // Mock search results
 const mockResults = {
@@ -72,56 +72,62 @@ const mockResults = {
 };
 
 // Result Card Component
-const ResultCard: React.FC<{ result: any; type: string }> = ({ result, type }) => {
+const ResultCard = ({ result, type }) => {
     const icons = {
         client: Users,
         case: Scale,
         document: FileText,
     };
 
-    const Icon = icons[type as keyof typeof icons];
+    const Icon = icons[type];
 
     return (
-        <div>
-            <div>
-                <div>
-                    <div>
-                        <Icon />
-                        <div>
-                            <h3>{result.name || result.title}</h3>
+        <div className="result-card">
+            <div className="result-card-content">
+                <div className="result-main">
+                    <div className="result-header">
+                        <div className="result-icon">
+                            <Icon className="icon" />
+                        </div>
+                        <div className="result-info">
+                            <h3 className="result-title">{result.name || result.title}</h3>
 
                             {type === "client" && (
-                                <div>
-                                    <p>{result.email}</p>
-                                    {result.company && <p>{result.company}</p>}
+                                <div className="client-details">
+                                    <p className="client-email">{result.email}</p>
+                                    {result.company && <p className="client-company">{result.company}</p>}
                                 </div>
                             )}
 
                             {type === "case" && (
-                                <div>
-                                    <p>{result.description}</p>
-                                    <div>
-                                        <span>{result.status}</span>
-                                        <span>Client: {result.client}</span>
+                                <div className="case-details">
+                                    <p className="case-description">{result.description}</p>
+                                    <div className="case-meta">
+                                        <span className={`case-status status-${result.status}`}>
+                                            {result.status}
+                                        </span>
+                                        <span className="case-client">Client: {result.client}</span>
                                     </div>
                                 </div>
                             )}
 
                             {type === "document" && (
-                                <div>
-                                    <p>{result.case}</p>
-                                    <p>{result.size}</p>
+                                <div className="document-details">
+                                    <p className="document-case">{result.case}</p>
+                                    <p className="document-size">{result.size}</p>
                                 </div>
                             )}
 
-                            <div>
-                                <Clock />
-                                Last activity: {format(result.lastActivity, "MMM d, yyyy")}
+                            <div className="result-activity">
+                                <Clock className="activity-icon" />
+                                <span className="activity-text">
+                                    Last activity: {format(result.lastActivity, "MMM d, yyyy")}
+                                </span>
                             </div>
                         </div>
                     </div>
-                    <button>
-                        <ArrowRight />
+                    <button className="result-action-btn">
+                        <ArrowRight className="action-icon" />
                     </button>
                 </div>
             </div>
@@ -130,14 +136,12 @@ const ResultCard: React.FC<{ result: any; type: string }> = ({ result, type }) =
 };
 
 // Main Search Component
-const GlobalSearch: React.FC = () => {
+const GlobalSearch = () => {
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedFilter, setSelectedFilter] = useState<
-        "all" | "clients" | "cases" | "documents"
-    >("all");
+    const [selectedFilter, setSelectedFilter] = useState("all");
     const [isSearching, setIsSearching] = useState(false);
 
-    const handleSearch = async (query: string) => {
+    const handleSearch = async (query) => {
         if (!query.trim()) return;
         setIsSearching(true);
         setTimeout(() => {
@@ -188,72 +192,78 @@ const GlobalSearch: React.FC = () => {
         results.documents.length;
 
     return (
-        <div>
+        <div className="global-search">
             {/* Header */}
-            <div>
-                <h1>Search</h1>
-                <p>Find clients, cases, and documents quickly</p>
+            <div className="search-header">
+                <h1 className="header-title">Search</h1>
+                <p className="header-description">Find clients, cases, and documents quickly</p>
             </div>
 
             {/* Search Bar */}
-            <div>
-                <div>
-                    <Search />
-                    <input
-                        type="text"
-                        placeholder="Search across all your legal data..."
-                        value={searchQuery}
-                        onChange={(e) => {
-                            setSearchQuery(e.target.value);
-                            handleSearch(e.target.value);
-                        }}
-                    />
+            <div className="search-controls">
+                <div className="search-input-container">
+                    <div className="search-input-wrapper">
+                        <Search className="search-icon" />
+                        <input
+                            type="text"
+                            className="search-input"
+                            placeholder="Search across all your legal data..."
+                            value={searchQuery}
+                            onChange={(e) => {
+                                setSearchQuery(e.target.value);
+                                handleSearch(e.target.value);
+                            }}
+                        />
+                    </div>
                 </div>
 
                 {/* Search Filters */}
-                <div>
-                    <Filter />
-                    <span>Filter by:</span>
-                    {["all", "clients", "cases", "documents"].map((filter) => (
-                        <button
-                            key={filter}
-                            onClick={() =>
-                                setSelectedFilter(filter as typeof selectedFilter)
-                            }
-                        >
-                            {filter.charAt(0).toUpperCase() + filter.slice(1)}
-                        </button>
-                    ))}
+                <div className="search-filters">
+                    <div className="filters-label">
+                        <Filter className="filter-icon" />
+                        <span className="filter-text">Filter by:</span>
+                    </div>
+                    <div className="filter-buttons">
+                        {["all", "clients", "cases", "documents"].map((filter) => (
+                            <button
+                                key={filter}
+                                className={`filter-btn ${selectedFilter === filter ? "active" : ""}`}
+                                onClick={() => setSelectedFilter(filter)}
+                            >
+                                {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
 
             {/* Results */}
             {searchQuery.trim() && (
-                <>
+                <div className="search-results">
                     {/* Results Summary */}
-                    <div>
-                        <h2>
+                    <div className="results-summary">
+                        <h2 className="summary-title">
                             Search Results {totalResults > 0 && `(${totalResults})`}
                         </h2>
                         {isSearching && (
-                            <div>
-                                <span>Searching...</span>
+                            <div className="searching-indicator">
+                                <span className="searching-text">Searching...</span>
                             </div>
                         )}
                     </div>
 
                     {totalResults > 0 ? (
-                        <div>
+                        <div className="results-content">
                             {/* Clients */}
                             {results.clients.length > 0 && (
-                                <div>
-                                    <div>
-                                        <Users />
-                                        <h3>
+                                <div className="results-section">
+                                    <div className="section-header">
+                                        <Users className="section-icon" />
+                                        <h3 className="section-title">
                                             Clients ({results.clients.length})
                                         </h3>
                                     </div>
-                                    <div>
+                                    <div className="section-results">
                                         {results.clients.map((client) => (
                                             <ResultCard
                                                 key={client.id}
@@ -267,12 +277,12 @@ const GlobalSearch: React.FC = () => {
 
                             {/* Cases */}
                             {results.cases.length > 0 && (
-                                <div>
-                                    <div>
-                                        <Scale />
-                                        <h3>Cases ({results.cases.length})</h3>
+                                <div className="results-section">
+                                    <div className="section-header">
+                                        <Scale className="section-icon" />
+                                        <h3 className="section-title">Cases ({results.cases.length})</h3>
                                     </div>
-                                    <div>
+                                    <div className="section-results">
                                         {results.cases.map((case_) => (
                                             <ResultCard
                                                 key={case_.id}
@@ -286,14 +296,14 @@ const GlobalSearch: React.FC = () => {
 
                             {/* Documents */}
                             {results.documents.length > 0 && (
-                                <div>
-                                    <div>
-                                        <FileText />
-                                        <h3>
+                                <div className="results-section">
+                                    <div className="section-header">
+                                        <FileText className="section-icon" />
+                                        <h3 className="section-title">
                                             Documents ({results.documents.length})
                                         </h3>
                                     </div>
-                                    <div>
+                                    <div className="section-results">
                                         {results.documents.map((document) => (
                                             <ResultCard
                                                 key={document.id}
@@ -306,40 +316,40 @@ const GlobalSearch: React.FC = () => {
                             )}
                         </div>
                     ) : !isSearching ? (
-                        <div>
-                            <Search />
-                            <h3>No results found</h3>
-                            <p>
+                        <div className="no-results">
+                            <Search className="no-results-icon" />
+                            <h3 className="no-results-title">No results found</h3>
+                            <p className="no-results-description">
                                 Try adjusting your search terms or clearing filters
                             </p>
                         </div>
                     ) : null}
-                </>
+                </div>
             )}
 
             {/* Search Tips */}
             {!searchQuery.trim() && (
-                <div>
-                    <div>
-                        <h3>Search Tips</h3>
+                <div className="search-tips">
+                    <div className="tips-header">
+                        <h3 className="tips-title">Search Tips</h3>
                     </div>
-                    <div>
-                        <div>
-                            <h4>Quick Searches</h4>
-                            <ul>
-                                <li>• Search by client name or email</li>
-                                <li>• Find cases by title or description</li>
-                                <li>• Locate documents by filename</li>
-                                <li>• Use filters to narrow results</li>
+                    <div className="tips-content">
+                        <div className="tips-section">
+                            <h4 className="tips-section-title">Quick Searches</h4>
+                            <ul className="tips-list">
+                                <li className="tip-item">• Search by client name or email</li>
+                                <li className="tip-item">• Find cases by title or description</li>
+                                <li className="tip-item">• Locate documents by filename</li>
+                                <li className="tip-item">• Use filters to narrow results</li>
                             </ul>
                         </div>
-                        <div>
-                            <h4>Advanced Tips</h4>
-                            <ul>
-                                <li>• Use quotes for exact phrases</li>
-                                <li>• Search across multiple fields</li>
-                                <li>• Filter by content type</li>
-                                <li>• Recent activity is prioritized</li>
+                        <div className="tips-section">
+                            <h4 className="tips-section-title">Advanced Tips</h4>
+                            <ul className="tips-list">
+                                <li className="tip-item">• Use quotes for exact phrases</li>
+                                <li className="tip-item">• Search across multiple fields</li>
+                                <li className="tip-item">• Filter by content type</li>
+                                <li className="tip-item">• Recent activity is prioritized</li>
                             </ul>
                         </div>
                     </div>

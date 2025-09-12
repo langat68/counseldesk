@@ -1,479 +1,400 @@
 // Variables
-$primary-color: #1f2937;
-$secondary-color: #374151;
-$accent-color: #3b82f6;
+$primary-color: #3b82f6;
+$primary-hover: #2563eb;
+$primary-light: #eff6ff;
 $success-color: #10b981;
 $warning-color: #f59e0b;
-$error-color: #ef4444;
+$danger-color: #ef4444;
+$info-color: #06b6d4;
+$border-color: #e5e7eb;
+$border-light: #f3f4f6;
+$background-white: #ffffff;
+$background-gray: #f9fafb;
+$background-light: #f8fafc;
 $text-primary: #111827;
 $text-secondary: #6b7280;
 $text-muted: #9ca3af;
-$bg-primary: #ffffff;
-$bg-secondary: #f9fafb;
-$bg-tertiary: #f3f4f6;
-$border-color: #e5e7eb;
-$border-hover: #d1d5db;
+$text-light: #d1d5db;
+$border-radius: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 16px;
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-2xl: 3rem;
 $shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 $shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-$radius-sm: 0.375rem;
-$radius-md: 0.5rem;
-$radius-lg: 0.75rem;
 
-// Mixins
-@mixin transition($property: all, $duration: 0.2s, $timing: ease-in-out) {
-    transition: $property $duration $timing;
-}
-
-@mixin flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-@mixin flex-between {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-@mixin button-base {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-    border-radius: $radius-md;
-    @include transition();
-    cursor: pointer;
-    border: none;
-    outline: none;
-
-    &:focus {
-        box-shadow: 0 0 0 3px rgba($accent-color, 0.1);
-    }
-
-    &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-}
-
-// Main container
+// Global Search Container
 .global-search {
+    padding: $spacing-xl;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: $text-primary;
+    background: $background-gray;
+    min-height: 100vh;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+}
 
-    // Header
-    &__header {
-        margin-bottom: 2rem;
+// Header Section
+.search-header {
+    text-align: center;
+    margin-bottom: $spacing-2xl;
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: $text-primary;
-            margin: 0 0 0.5rem 0;
-        }
-
-        p {
-            font-size: 1.125rem;
-            color: $text-secondary;
-            margin: 0;
-        }
+    .header-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0 0 $spacing-sm 0;
+        color: $text-primary;
+        background: linear-gradient(135deg, $primary-color, lighten($primary-color, 20%));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
-    // Search container
-    &__search-container {
-        margin-bottom: 2rem;
+    .header-description {
+        color: $text-secondary;
+        margin: 0;
+        font-size: 1.1rem;
+    }
+}
 
-        .search-bar {
+// Search Controls
+.search-controls {
+    margin-bottom: $spacing-2xl;
+
+    .search-input-container {
+        margin-bottom: $spacing-lg;
+
+        .search-input-wrapper {
             position: relative;
-            margin-bottom: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
 
-            &__icon {
+            .search-icon {
                 position: absolute;
-                left: 1rem;
+                left: $spacing-lg;
                 top: 50%;
                 transform: translateY(-50%);
                 color: $text-muted;
                 width: 1.25rem;
                 height: 1.25rem;
-                z-index: 1;
             }
 
-            &__input {
+            .search-input {
                 width: 100%;
-                padding: 0.875rem 1rem 0.875rem 3rem;
+                padding: $spacing-lg $spacing-lg $spacing-lg 3.5rem;
                 border: 2px solid $border-color;
-                border-radius: $radius-lg;
-                font-size: 1rem;
-                background: $bg-primary;
-                color: $text-primary;
-                @include transition(border-color);
-
-                &::placeholder {
-                    color: $text-muted;
-                }
+                border-radius: $border-radius-xl;
+                font-size: 1.1rem;
+                background: $background-white;
+                transition: all 0.3s ease;
+                box-shadow: $shadow-sm;
 
                 &:focus {
                     outline: none;
-                    border-color: $accent-color;
-                    box-shadow: 0 0 0 3px rgba($accent-color, 0.1);
-                }
-            }
-        }
-
-        // Filters
-        .filters {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-
-            &__icon {
-                color: $text-secondary;
-                width: 1rem;
-                height: 1rem;
-            }
-
-            &__label {
-                color: $text-secondary;
-                font-weight: 500;
-                font-size: 0.875rem;
-            }
-
-            &__button {
-                @include button-base;
-                padding: 0.5rem 1rem;
-                background: $bg-secondary;
-                color: $text-secondary;
-                font-size: 0.875rem;
-                border-radius: $radius-md;
-
-                &:hover {
-                    background: $bg-tertiary;
-                    color: $text-primary;
+                    border-color: $primary-color;
+                    box-shadow: 0 0 0 4px rgba($primary-color, 0.1), $shadow-md;
                 }
 
-                &--active {
-                    background: $accent-color;
-                    color: white;
-
-                    &:hover {
-                        background: darken($accent-color, 10%);
-                    }
+                &::placeholder {
+                    color: $text-muted;
                 }
             }
         }
     }
 
-    // Results summary
-    &__results-summary {
-        @include flex-between;
-        margin-bottom: 1.5rem;
+    .search-filters {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $spacing-md;
 
-        h2 {
+        @media (min-width: 768px) {
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .filters-label {
+            display: flex;
+            align-items: center;
+            gap: $spacing-sm;
+            color: $text-secondary;
+            font-weight: 500;
+
+            .filter-icon {
+                width: 1rem;
+                height: 1rem;
+            }
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: $spacing-sm;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            .filter-btn {
+                padding: $spacing-sm $spacing-lg;
+                border: 2px solid $border-color;
+                background: $background-white;
+                color: $text-secondary;
+                border-radius: $border-radius-lg;
+                cursor: pointer;
+                font-size: 0.9rem;
+                font-weight: 500;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background: $primary-light;
+                    border-color: lighten($primary-color, 20%);
+                    color: $primary-color;
+                }
+
+                &.active {
+                    background: $primary-color;
+                    color: white;
+                    border-color: $primary-color;
+                    box-shadow: $shadow-sm;
+                }
+            }
+        }
+    }
+}
+
+// Search Results
+.search-results {
+    .results-summary {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: $spacing-xl;
+        padding-bottom: $spacing-md;
+        border-bottom: 2px solid $border-light;
+
+        .summary-title {
             font-size: 1.5rem;
             font-weight: 600;
             color: $text-primary;
             margin: 0;
         }
 
-        .searching {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: $text-secondary;
-            font-size: 0.875rem;
-
-            &__spinner {
-                width: 1rem;
-                height: 1rem;
-                border: 2px solid $border-color;
-                border-top-color: $accent-color;
-                border-radius: 50%;
-                animation: spin 1s linear infinite;
+        .searching-indicator {
+            .searching-text {
+                color: $primary-color;
+                font-weight: 500;
+                animation: pulse 2s infinite;
             }
         }
     }
 
-    // Results sections
-    &__results {
+    .results-content {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
-
-        .section {
-            &__header {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                margin-bottom: 1rem;
-
-                svg {
-                    width: 1.25rem;
-                    height: 1.25rem;
-                    color: $accent-color;
-                }
-
-                h3 {
-                    font-size: 1.25rem;
-                    font-weight: 600;
-                    color: $text-primary;
-                    margin: 0;
-                }
-            }
-
-            &__grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-                gap: 1rem;
-
-                @media (max-width: 768px) {
-                    grid-template-columns: 1fr;
-                }
-            }
-        }
+        gap: $spacing-2xl;
     }
 
-    // No results
-    &__no-results {
-        @include flex-center;
-        flex-direction: column;
-        padding: 3rem 2rem;
-        text-align: center;
+    .results-section {
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: $spacing-sm;
+            margin-bottom: $spacing-lg;
 
-        svg {
-            width: 3rem;
-            height: 3rem;
-            color: $text-muted;
-            margin-bottom: 1rem;
-        }
+            .section-icon {
+                width: 1.25rem;
+                height: 1.25rem;
+                color: $primary-color;
+            }
 
-        h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: $text-primary;
-            margin: 0 0 0.5rem 0;
-        }
-
-        p {
-            color: $text-secondary;
-            margin: 0;
-        }
-    }
-
-    // Search tips
-    &__tips {
-        margin-top: 2rem;
-
-        &-header {
-            margin-bottom: 1.5rem;
-
-            h3 {
-                font-size: 1.5rem;
+            .section-title {
+                font-size: 1.25rem;
                 font-weight: 600;
                 color: $text-primary;
                 margin: 0;
             }
         }
 
-        &-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-
-            @media (max-width: 768px) {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-        }
-
-        &-card {
-            background: $bg-secondary;
-            border-radius: $radius-lg;
-            padding: 1.5rem;
-
-            h4 {
-                font-size: 1.125rem;
-                font-weight: 600;
-                color: $text-primary;
-                margin: 0 0 1rem 0;
-            }
-
-            ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-
-                li {
-                    color: $text-secondary;
-                    padding: 0.25rem 0;
-                    font-size: 0.875rem;
-
-                    &::before {
-                        content: '•';
-                        color: $accent-color;
-                        font-weight: bold;
-                        display: inline-block;
-                        width: 1em;
-                        margin-left: -1em;
-                    }
-                }
-            }
+        .section-results {
+            display: flex;
+            flex-direction: column;
+            gap: $spacing-md;
         }
     }
 }
 
-// Result card component
+// Result Card
 .result-card {
-    background: $bg-primary;
+    background: $background-white;
     border: 1px solid $border-color;
-    border-radius: $radius-lg;
-    padding: 1.5rem;
-    @include transition();
+    border-radius: $border-radius-lg;
+    box-shadow: $shadow-sm;
+    transition: all 0.2s ease;
+    overflow: hidden;
 
     &:hover {
-        border-color: $border-hover;
         box-shadow: $shadow-md;
+        transform: translateY(-2px);
+        border-color: lighten($primary-color, 30%);
     }
 
-    &__content {
-        @include flex-between;
+    .result-card-content {
+        padding: $spacing-lg;
 
-        .card-main {
-            flex: 1;
+        .result-main {
+            display: flex;
+            align-items: flex-start;
+            gap: $spacing-lg;
 
-            &__header {
+            .result-header {
                 display: flex;
-                align-items: flex-start;
-                gap: 0.75rem;
-                margin-bottom: 1rem;
+                gap: $spacing-md;
+                flex: 1;
 
-                .icon {
-                    color: $accent-color;
-                    width: 1.5rem;
-                    height: 1.5rem;
+                .result-icon {
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    border-radius: $border-radius;
+                    background: $primary-light;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                     flex-shrink: 0;
-                    margin-top: 0.125rem;
+
+                    .icon {
+                        width: 1.25rem;
+                        height: 1.25rem;
+                        color: $primary-color;
+                    }
                 }
 
-                .details {
+                .result-info {
                     flex: 1;
 
-                    h3 {
-                        font-size: 1.125rem;
+                    .result-title {
+                        font-size: 1.1rem;
                         font-weight: 600;
+                        margin: 0 0 $spacing-sm 0;
                         color: $text-primary;
-                        margin: 0 0 0.5rem 0;
                         line-height: 1.4;
                     }
 
-                    .client-info {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 0.25rem;
+                    // Client specific styles
+                    .client-details {
+                        .client-email {
+                            color: $text-secondary;
+                            font-size: 0.9rem;
+                            margin: 0 0 $spacing-xs 0;
+                        }
 
-                        p {
+                        .client-company {
+                            color: $text-muted;
+                            font-size: 0.85rem;
                             margin: 0;
-                            font-size: 0.875rem;
-
-                            &:first-child {
-                                color: $text-secondary;
-                            }
-
-                            &:last-child {
-                                color: $text-muted;
-                                font-weight: 500;
-                            }
+                            font-style: italic;
                         }
                     }
 
-                    .case-info {
-                        p {
+                    // Case specific styles
+                    .case-details {
+                        .case-description {
                             color: $text-secondary;
-                            font-size: 0.875rem;
-                            margin: 0 0 0.75rem 0;
+                            font-size: 0.9rem;
+                            margin: 0 0 $spacing-sm 0;
                             line-height: 1.4;
                         }
 
                         .case-meta {
                             display: flex;
-                            gap: 1rem;
+                            gap: $spacing-md;
                             flex-wrap: wrap;
 
-                            span {
+                            .case-status {
+                                padding: $spacing-xs $spacing-sm;
+                                border-radius: $border-radius;
                                 font-size: 0.75rem;
-                                padding: 0.25rem 0.5rem;
-                                border-radius: $radius-sm;
                                 font-weight: 500;
+                                text-transform: capitalize;
 
-                                &:first-child {
+                                &.status-open {
                                     background: rgba($success-color, 0.1);
                                     color: $success-color;
-                                    text-transform: capitalize;
                                 }
 
-                                &:last-child {
-                                    background: rgba($accent-color, 0.1);
-                                    color: $accent-color;
+                                &.status-in-review {
+                                    background: rgba($warning-color, 0.1);
+                                    color: $warning-color;
+                                }
+
+                                &.status-closed {
+                                    background: rgba($text-muted, 0.1);
+                                    color: $text-muted;
                                 }
                             }
-                        }
-                    }
 
-                    .document-info {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 0.25rem;
-
-                        p {
-                            margin: 0;
-                            font-size: 0.875rem;
-
-                            &:first-child {
-                                color: $text-secondary;
-                                font-weight: 500;
-                            }
-
-                            &:last-child {
+                            .case-client {
+                                font-size: 0.8rem;
                                 color: $text-muted;
                             }
                         }
                     }
+
+                    // Document specific styles
+                    .document-details {
+                        .document-case {
+                            color: $text-secondary;
+                            font-size: 0.9rem;
+                            margin: 0 0 $spacing-xs 0;
+                        }
+
+                        .document-size {
+                            color: $text-muted;
+                            font-size: 0.8rem;
+                            margin: 0;
+                            font-weight: 500;
+                        }
+                    }
+
+                    .result-activity {
+                        display: flex;
+                        align-items: center;
+                        gap: $spacing-xs;
+                        margin-top: $spacing-md;
+                        padding-top: $spacing-sm;
+                        border-top: 1px solid $border-light;
+
+                        .activity-icon {
+                            width: 0.875rem;
+                            height: 0.875rem;
+                            color: $text-muted;
+                        }
+
+                        .activity-text {
+                            font-size: 0.8rem;
+                            color: $text-muted;
+                        }
+                    }
                 }
             }
 
-            .activity {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                color: $text-muted;
-                font-size: 0.75rem;
-
-                svg {
-                    width: 0.875rem;
-                    height: 0.875rem;
-                }
-            }
-        }
-
-        .card-action {
-            margin-left: 1rem;
-
-            button {
-                @include button-base;
-                padding: 0.5rem;
+            .result-action-btn {
+                padding: $spacing-sm;
                 background: transparent;
+                border: none;
                 color: $text-muted;
-                border-radius: $radius-sm;
+                cursor: pointer;
+                border-radius: $border-radius;
+                transition: all 0.2s ease;
 
                 &:hover {
-                    background: $bg-secondary;
-                    color: $text-secondary;
+                    background: $primary-light;
+                    color: $primary-color;
                 }
 
-                svg {
+                .action-icon {
                     width: 1rem;
                     height: 1rem;
                 }
@@ -482,86 +403,179 @@ $radius-lg: 0.75rem;
     }
 }
 
-// Animations
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
+// No Results
+.no-results {
+    text-align: center;
+    padding: $spacing-2xl;
+    background: $background-white;
+    border: 2px dashed $border-color;
+    border-radius: $border-radius-xl;
+    margin-top: $spacing-xl;
+
+    .no-results-icon {
+        width: 4rem;
+        height: 4rem;
+        color: $text-light;
+        margin-bottom: $spacing-lg;
     }
 
-    to {
-        transform: rotate(360deg);
+    .no-results-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0 0 $spacing-sm 0;
+        color: $text-primary;
+    }
+
+    .no-results-description {
+        color: $text-secondary;
+        margin: 0;
+        font-size: 0.9rem;
     }
 }
 
-// Responsive design
-@media (max-width: 1024px) {
-    .global-search {
-        padding: 1.5rem;
+// Search Tips
+.search-tips {
+    margin-top: $spacing-2xl;
+    background: $background-white;
+    border-radius: $border-radius-xl;
+    padding: $spacing-2xl;
+    box-shadow: $shadow-sm;
 
-        &__header h1 {
-            font-size: 2rem;
+    .tips-header {
+        text-align: center;
+        margin-bottom: $spacing-xl;
+
+        .tips-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            color: $text-primary;
+        }
+    }
+
+    .tips-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: $spacing-xl;
+
+        @media (min-width: 768px) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .tips-section {
+            .tips-section-title {
+                font-size: 1.1rem;
+                font-weight: 600;
+                margin: 0 0 $spacing-md 0;
+                color: $text-primary;
+            }
+
+            .tips-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+
+                .tip-item {
+                    padding: $spacing-xs 0;
+                    color: $text-secondary;
+                    font-size: 0.9rem;
+                    line-height: 1.5;
+                }
+            }
         }
     }
 }
 
+// Animations
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+// Responsive Design
 @media (max-width: 768px) {
     .global-search {
-        padding: 1rem;
+        padding: $spacing-lg;
+    }
 
-        &__header {
-            h1 {
-                font-size: 1.75rem;
-            }
+    .search-header {
+        .header-title {
+            font-size: 2rem;
+        }
 
-            p {
-                font-size: 1rem;
+        .header-description {
+            font-size: 1rem;
+        }
+    }
+
+    .search-controls {
+        .search-input-container {
+            .search-input-wrapper {
+                .search-input {
+                    padding: $spacing-md $spacing-md $spacing-md 3rem;
+                    font-size: 1rem;
+                }
+
+                .search-icon {
+                    left: $spacing-md;
+                    width: 1rem;
+                    height: 1rem;
+                }
             }
         }
 
-        .filters {
-            &__button {
-                padding: 0.375rem 0.75rem;
-                font-size: 0.8125rem;
+        .search-filters {
+            .filter-buttons {
+                .filter-btn {
+                    padding: $spacing-xs $spacing-md;
+                    font-size: 0.8rem;
+                }
             }
         }
     }
 
     .result-card {
-        padding: 1rem;
+        .result-card-content {
+            padding: $spacing-md;
 
-        &__content {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1rem;
+            .result-main {
+                gap: $spacing-md;
 
-            .card-action {
-                margin-left: 0;
-                align-self: flex-end;
+                .result-header {
+                    gap: $spacing-sm;
+
+                    .result-icon {
+                        width: 2rem;
+                        height: 2rem;
+
+                        .icon {
+                            width: 1rem;
+                            height: 1rem;
+                        }
+                    }
+
+                    .result-info {
+                        .result-title {
+                            font-size: 1rem;
+                        }
+                    }
+                }
             }
         }
     }
-}
 
-// Status-specific styles
-.status {
-    &--open {
-        background: rgba($success-color, 0.1);
-        color: $success-color;
+    .search-tips {
+        padding: $spacing-lg;
+
+        .tips-content {
+            grid-template-columns: 1fr;
+        }
     }
-
-    &--in-review {
-        background: rgba($warning-color, 0.1);
-        color: $warning-color;
-    }
-
-    &--closed {
-        background: rgba($text-muted, 0.1);
-        color: $text-muted;
-    }
-}
-
-// Focus styles for accessibility
-*:focus {
-    outline: 2px solid $accent-color;
-    outline-offset: 2px;
 }
