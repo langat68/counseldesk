@@ -6,6 +6,7 @@ import CalendarView from './components/Calender/CalenderView'
 import ClientsList from './components/clients/ClientsLists'
 import Dashboard from './components/Dashboard/Dashboard'
 import GlobalSearch from './components/Search/GlobalSearch'
+import Sidebar from './components/sidebar'
 
 function App() {
 
@@ -18,6 +19,8 @@ function App() {
       <ClientsList />
       <CalendarView />
       <Dashboard />
+      <Sidebar />
+
       <GlobalSearch />
 
     </>
