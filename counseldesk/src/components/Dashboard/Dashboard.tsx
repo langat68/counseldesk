@@ -12,6 +12,8 @@ import {
 import { useStore } from "../../Store/userstore";
 import { format } from "date-fns";
 
+import "../../Styling/Dashboard.scss"; // ✅ Import SCSS
+
 type Trend = { value: string; positive: boolean };
 
 const OverviewCard = ({
@@ -27,17 +29,20 @@ const OverviewCard = ({
     icon: React.ElementType;
     trend?: Trend;
 }) => (
-    <div>
-        <div>
-            <span>{title}</span>
-            <Icon size={20} />
+    <div className="overview-card">
+        <div className="overview-card__header">
+            <span className="overview-card__title">{title}</span>
+            <Icon size={20} className="overview-card__icon" />
         </div>
-        <div>
-            <div>{value}</div>
-            <div>
-                <p>{subtitle}</p>
+        <div className="overview-card__body">
+            <div className="overview-card__value">{value}</div>
+            <div className="overview-card__footer">
+                <p className="overview-card__subtitle">{subtitle}</p>
                 {trend && (
-                    <span>
+                    <span
+                        className={`overview-card__trend ${trend.positive ? "positive" : "negative"
+                            }`}
+                    >
                         <TrendingUp size={14} />
                         {trend.value}
                     </span>
@@ -58,12 +63,12 @@ const QuickAction = ({
     icon: React.ElementType;
     onClick: () => void;
 }) => (
-    <button onClick={onClick}>
-        <div>
-            <Icon size={18} />
-            <span>{title}</span>
+    <button className="quick-action" onClick={onClick}>
+        <div className="quick-action__header">
+            <Icon size={18} className="quick-action__icon" />
+            <span className="quick-action__title">{title}</span>
         </div>
-        <p>{description}</p>
+        <p className="quick-action__desc">{description}</p>
     </button>
 );
 
@@ -75,7 +80,7 @@ const StatusBadge = ({ status }: { status: string }) => {
         "in-review": "In Review",
     };
 
-    return <span>{variants[status] || "Open"}</span>;
+    return <span className={`status-badge status-${status}`}>{variants[status] || "Open"}</span>;
 };
 
 const Dashboard: React.FC = () => {
@@ -86,21 +91,25 @@ const Dashboard: React.FC = () => {
     const recentCases = cases.slice(0, 5);
 
     return (
-        <div>
+        <div className="dashboard">
             {/* Header */}
-            <div>
+            <div className="dashboard__header">
                 <div>
-                    <h1>Dashboard</h1>
-                    <p>Welcome back, John. Here's what's happening.</p>
+                    <h1 className="dashboard__title">Dashboard</h1>
+                    <p className="dashboard__subtitle">
+                        Welcome back, John. Here's what's happening.
+                    </p>
                 </div>
-                <button onClick={() => setCurrentView("cases")}>
-                    <Plus size={16} />
-                    New Case
+                <button
+                    className="dashboard__new-btn"
+                    onClick={() => setCurrentView("cases")}
+                >
+                    <Plus size={16} /> New Case
                 </button>
             </div>
 
             {/* Overview Cards */}
-            <div>
+            <div className="dashboard__overview">
                 <OverviewCard
                     title="Active Clients"
                     value={activeClients.toString()}
@@ -131,28 +140,33 @@ const Dashboard: React.FC = () => {
                 />
             </div>
 
-            <div>
+            <div className="dashboard__content">
                 {/* Recent Cases */}
-                <div>
-                    <div>
+                <div className="recent-cases">
+                    <div className="recent-cases__header">
                         <h2>Recent Cases</h2>
-                        <button onClick={() => setCurrentView("cases")}>
+                        <button
+                            className="recent-cases__btn"
+                            onClick={() => setCurrentView("cases")}
+                        >
                             View All
                         </button>
                     </div>
-                    <div>
+                    <div className="recent-cases__list">
                         {recentCases.map((case_) => (
-                            <div key={case_.id}>
-                                <div>
+                            <div key={case_.id} className="recent-cases__item">
+                                <div className="recent-cases__info">
                                     <Scale size={16} />
                                     <div>
-                                        <p>{case_.title}</p>
-                                        <p>{case_.description}</p>
+                                        <p className="recent-cases__title">{case_.title}</p>
+                                        <p className="recent-cases__desc">{case_.description}</p>
                                     </div>
                                 </div>
-                                <div>
+                                <div className="recent-cases__meta">
                                     <StatusBadge status={case_.status} />
-                                    <span>{format(case_.updatedAt, "MMM d")}</span>
+                                    <span className="recent-cases__date">
+                                        {format(case_.updatedAt, "MMM d")}
+                                    </span>
                                 </div>
                             </div>
                         ))}
@@ -160,9 +174,9 @@ const Dashboard: React.FC = () => {
                 </div>
 
                 {/* Quick Actions */}
-                <div>
+                <div className="quick-actions">
                     <h2>Quick Actions</h2>
-                    <div>
+                    <div className="quick-actions__list">
                         <QuickAction
                             title="Add New Client"
                             description="Register a new client profile"
@@ -192,24 +206,28 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Alerts */}
-            <div>
-                <h2>
+            <div className="alerts">
+                <h2 className="alerts__title">
                     <AlertTriangle size={18} />
                     Urgent Items
                 </h2>
-                <div>
-                    <div>
+                <div className="alerts__list">
+                    <div className="alerts__item">
                         <Clock size={14} />
                         <div>
-                            <p>Contract Review Due</p>
-                            <p>Johnson & Associates - Due tomorrow</p>
+                            <p className="alerts__task">Contract Review Due</p>
+                            <p className="alerts__desc">
+                                Johnson & Associates - Due tomorrow
+                            </p>
                         </div>
                     </div>
-                    <div>
+                    <div className="alerts__item">
                         <CheckCircle size={14} />
                         <div>
-                            <p>Document Signed</p>
-                            <p>TechCorp NDA completed</p>
+                            <p className="alerts__task">Document Signed</p>
+                            <p className="alerts__desc">
+                                TechCorp NDA completed
+                            </p>
                         </div>
                     </div>
                 </div>

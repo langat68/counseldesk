@@ -1,351 +1,252 @@
-// Variables
-$primary-color: #3b82f6;
-$primary-hover: #2563eb;
-$success-color: #10b981;
-$warning-color: #f59e0b;
-$danger-color: #ef4444;
-$border-color: #e5e7eb;
-$background-white: #ffffff;
-$background-gray: #f9fafb;
-$background-light: #f3f4f6;
-$text-primary: #111827;
-$text-secondary: #6b7280;
-$text-muted: #9ca3af;
-$border-radius: 8px;
-$border-radius-lg: 12px;
-$spacing-xs: 0.25rem;
-$spacing-sm: 0.5rem;
-$spacing-md: 1rem;
-$spacing-lg: 1.5rem;
-$spacing-xl: 2rem;
-$spacing-2xl: 3rem;
-$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-
-// Clients List Container
-.clients-list {
-    padding: $spacing-xl;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    color: $text-primary;
-    background: $background-gray;
-    min-height: 100vh;
-}
-
-// Header Section
-.clients-header {
+.clients {
+    padding: 2rem;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: $spacing-2xl;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: #f9fafb;
+    min-height: 100vh;
 
-    .header-content {
-        .header-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 0 0 $spacing-xs 0;
-            color: $text-primary;
-        }
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-        .header-description {
-            color: $text-secondary;
-            margin: 0;
-            font-size: 1rem;
+        &-info {
+            .clients__title {
+                font-size: 1.75rem;
+                font-weight: 700;
+                margin: 0;
+                color: #111827;
+            }
+
+            .clients__subtitle {
+                font-size: 0.95rem;
+                color: #6b7280;
+                margin-top: 0.25rem;
+            }
         }
     }
 
-    .add-client-btn {
+    &__add-btn {
         display: flex;
         align-items: center;
-        gap: $spacing-sm;
-        padding: $spacing-sm $spacing-lg;
-        background: $primary-color;
-        color: white;
+        gap: 0.5rem;
+        background: #2563eb;
+        color: #fff;
         border: none;
-        border-radius: $border-radius;
-        cursor: pointer;
-        font-size: 0.9rem;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
         font-weight: 500;
-        transition: background-color 0.2s ease;
+        cursor: pointer;
+        transition: background 0.2s ease;
 
         &:hover {
-            background: $primary-hover;
+            background: #1e40af;
+        }
+
+        svg {
+            width: 18px;
+            height: 18px;
         }
     }
-}
 
-// Controls Section
-.clients-controls {
-    margin-bottom: $spacing-xl;
-
-    .controls-container {
+    &__controls {
         display: flex;
-        flex-direction: column;
-        gap: $spacing-lg;
-
-        @media (min-width: 768px) {
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-        }
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+        align-items: center;
     }
 
-    .search-box {
-        .search-input-wrapper {
-            position: relative;
-            max-width: 400px;
+    &__search {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        gap: 0.5rem;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 0.5rem 0.8rem;
+        background: #fff;
 
-            .search-icon {
-                position: absolute;
-                left: $spacing-md;
-                top: 50%;
-                transform: translateY(-50%);
-                color: $text-muted;
-                width: 1rem;
-                height: 1rem;
-            }
+        &-icon {
+            color: #9ca3af;
+        }
 
-            .search-input {
-                width: 100%;
-                padding: $spacing-sm $spacing-md $spacing-sm 2.5rem;
-                border: 1px solid $border-color;
-                border-radius: $border-radius;
-                font-size: 0.9rem;
-                background: $background-white;
+        &-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
 
-                &:focus {
-                    outline: none;
-                    border-color: $primary-color;
-                    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
-                }
-
-                &::placeholder {
-                    color: $text-muted;
-                }
+            &::placeholder {
+                color: #9ca3af;
             }
         }
     }
 
-    .status-filters {
+    &__filters {
         display: flex;
-        gap: $spacing-sm;
+        gap: 0.5rem;
 
-        .filter-btn {
-            padding: $spacing-sm $spacing-md;
-            border: 1px solid $border-color;
-            background: $background-white;
-            color: $text-secondary;
-            border-radius: $border-radius;
+        .clients__filter {
+            padding: 0.4rem 0.9rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: #f9fafb;
             cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 0.9rem;
             transition: all 0.2s ease;
 
             &:hover {
-                background: $background-light;
-                border-color: darken($border-color, 10%);
+                background: #f3f4f6;
             }
 
-            &.active {
-                background: $primary-color;
-                color: white;
-                border-color: $primary-color;
+            &.is-active {
+                background: #2563eb;
+                color: #fff;
+                border-color: #2563eb;
             }
         }
     }
-}
 
-// Clients Grid
-.clients-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: $spacing-lg;
-    margin-bottom: $spacing-xl;
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
 
+    // ---------- Card ----------
     .client-card {
-        background: $background-white;
-        border: 1px solid $border-color;
-        border-radius: $border-radius-lg;
-        padding: $spacing-lg;
-        box-shadow: $shadow-sm;
-        transition: all 0.2s ease;
-
-        &:hover {
-            box-shadow: $shadow-md;
-            transform: translateY(-2px);
-        }
-
-        .client-header {
-            display: flex;
-            align-items: flex-start;
-            gap: $spacing-md;
-            margin-bottom: $spacing-lg;
-
-            .client-avatar {
-                width: 3rem;
-                height: 3rem;
-                border-radius: 50%;
-                background: linear-gradient(135deg, $primary-color, lighten($primary-color, 20%));
-                color: white;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: 600;
-                font-size: 1rem;
-                flex-shrink: 0;
-            }
-
-            .client-info {
-                flex: 1;
-
-                .client-name {
-                    font-size: 1.1rem;
-                    font-weight: 600;
-                    margin: 0 0 $spacing-xs 0;
-                    color: $text-primary;
-                }
-
-                .client-status {
-                    padding: $spacing-xs $spacing-sm;
-                    border-radius: 20px;
-                    font-size: 0.75rem;
-                    font-weight: 500;
-                    text-transform: capitalize;
-
-                    &.status-active {
-                        background: rgba($success-color, 0.1);
-                        color: $success-color;
-                    }
-
-                    &.status-inactive {
-                        background: rgba($text-muted, 0.1);
-                        color: $text-muted;
-                    }
-                }
-            }
-
-            .client-menu-btn {
-                padding: $spacing-xs;
-                background: transparent;
-                border: none;
-                color: $text-muted;
-                cursor: pointer;
-                border-radius: $spacing-xs;
-
-                &:hover {
-                    background: $background-light;
-                    color: $text-secondary;
-                }
-            }
-        }
-
-        .client-details {
-            .detail-item {
-                display: flex;
-                align-items: center;
-                gap: $spacing-sm;
-                margin-bottom: $spacing-sm;
-
-                .detail-icon {
-                    color: $text-muted;
-                    width: 1rem;
-                    height: 1rem;
-                    flex-shrink: 0;
-                }
-
-                .detail-text {
-                    font-size: 0.9rem;
-                    color: $text-secondary;
-                    word-break: break-all;
-                }
-            }
-
-            .client-since {
-                margin-top: $spacing-md;
-                font-size: 0.85rem;
-                color: $text-muted;
-                font-style: italic;
-            }
-        }
-    }
-}
-
-// Empty State
-.empty-state {
-    text-align: center;
-    padding: $spacing-2xl;
-    background: $background-white;
-    border: 2px dashed $border-color;
-    border-radius: $border-radius-lg;
-    margin-top: $spacing-2xl;
-
-    .empty-icon {
-        width: 4rem;
-        height: 4rem;
-        color: $text-muted;
-        margin-bottom: $spacing-lg;
-    }
-
-    .empty-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin: 0 0 $spacing-sm 0;
-        color: $text-primary;
-    }
-
-    .empty-description {
-        color: $text-secondary;
-        margin: 0 0 $spacing-xl 0;
-        font-size: 0.9rem;
-    }
-
-    .empty-add-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: $spacing-sm;
-        padding: $spacing-sm $spacing-lg;
-        background: $primary-color;
-        color: white;
-        border: none;
-        border-radius: $border-radius;
-        cursor: pointer;
-        font-size: 0.9rem;
-        font-weight: 500;
-        transition: background-color 0.2s ease;
-
-        &:hover {
-            background: $primary-hover;
-        }
-    }
-}
-
-// Responsive Design
-@media (max-width: 768px) {
-    .clients-list {
-        padding: $spacing-lg;
-    }
-
-    .clients-header {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1rem;
+        display: flex;
         flex-direction: column;
-        gap: $spacing-lg;
-        align-items: stretch;
+        gap: 1rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 
-        .add-client-btn {
+        &__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+        }
+
+        &__avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #2563eb22;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            font-weight: 600;
+        }
+
+        &__info {
+            flex: 1;
+        }
+
+        &__name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+            color: #111827;
+        }
+
+        &__status {
+            font-size: 0.8rem;
+            text-transform: capitalize;
+
+            &--active {
+                color: #16a34a;
+            }
+
+            &--inactive {
+                color: #dc2626;
+            }
+        }
+
+        &__menu {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #6b7280;
+
+            &:hover {
+                color: #111827;
+            }
+        }
+
+        &__details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        &__detail {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+            color: #374151;
+
+            .client-card__icon {
+                color: #9ca3af;
+            }
+        }
+
+        &__since {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
         }
     }
 
-    .clients-grid {
-        grid-template-columns: 1fr;
-        gap: $spacing-md;
-    }
+    // ---------- Empty ----------
+    &__empty {
+        margin: 3rem auto;
+        text-align: center;
+        max-width: 400px;
+        color: #374151;
 
-    .status-filters {
-        flex-wrap: wrap;
+        &-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 1rem;
+            color: #9ca3af;
+        }
 
-        .filter-btn {
-            flex: 1;
-            min-width: 0;
-            text-align: center;
+        &-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        &-text {
+            font-size: 0.95rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+
+        &-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s ease;
+
+            &:hover {
+                background: #1e40af;
+            }
         }
     }
 }

@@ -1,670 +1,199 @@
-// Cases List Component Styles
-.cases {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: #f8fafc;
-    min-height: 100vh;
+.cases-list {
+    padding: 1.5rem;
 
-    // Header Section
-    &__header {
+    .cases-header {
         display: flex;
         justify-content: space-between;
-        align-items: flex-end;
-        margin-bottom: 2rem;
-        background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
-        color: white;
-        padding: 2.5rem;
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
-        position: relative;
-        overflow: hidden;
+        align-items: center;
+        margin-bottom: 1.5rem;
 
-        // Decorative elements
-        &::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
         }
 
-        &-content {
-            position: relative;
-            z-index: 2;
+        p {
+            color: #666;
+            font-size: 0.9rem;
+        }
 
-            h1 {
-                font-size: 3rem;
-                font-weight: 800;
-                margin: 0 0 0.5rem 0;
-                background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
-                background-clip: text;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+
+            &:hover {
+                background: #1e4ed8;
+            }
+        }
+    }
+
+    .cases-filters {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+
+            input {
+                border: none;
+                outline: none;
+                margin-left: 0.4rem;
+            }
+        }
+
+        .status-filters {
+            display: flex;
+            gap: 0.5rem;
+
+            button {
+                background: transparent;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                padding: 0.3rem 0.8rem;
+                cursor: pointer;
+
+                &.active {
+                    background: #2563eb;
+                    color: #fff;
+                    border-color: #2563eb;
+                }
+            }
+        }
+    }
+
+    .cases-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin: 1.5rem 0;
+
+        .stat-card {
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fafafa;
+
+            h2 {
+                margin: 0;
+                font-size: 1.3rem;
             }
 
             p {
-                font-size: 1.2rem;
                 margin: 0;
-                opacity: 0.9;
-                font-weight: 300;
-            }
-        }
-
-        &-actions {
-            position: relative;
-            z-index: 2;
-
-            .btn {
-                background: rgba(255, 255, 255, 0.2);
-                backdrop-filter: blur(10px);
-                color: white;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                padding: 1rem 2rem;
-                border-radius: 12px;
-                font-weight: 600;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-
-                &:hover {
-                    background: rgba(255, 255, 255, 0.3);
-                    transform: translateY(-3px);
-                    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-                }
-            }
-        }
-
-        @media (max-width: 768px) {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 1.5rem;
-            padding: 2rem;
-
-            &-content h1 {
-                font-size: 2.5rem;
+                color: #555;
+                font-size: 0.9rem;
             }
         }
     }
 
-    // Filters Section
-    &__filters {
-        background: white;
-        padding: 2rem;
-        border-radius: 16px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        border: 1px solid #e2e8f0;
-        margin-bottom: 2rem;
-
-        &-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-
-            @media (min-width: 1024px) {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-        }
-
-        // Search Input
-        &-search {
-            position: relative;
-            max-width: 400px;
-            width: 100%;
-
-            svg {
-                position: absolute;
-                left: 1rem;
-                top: 50%;
-                transform: translateY(-50%);
-                color: #6b7280;
-                z-index: 1;
-            }
-
-            input {
-                width: 100%;
-                padding: 1rem 1rem 1rem 3rem;
-                border: 2px solid #e5e7eb;
-                border-radius: 12px;
-                font-size: 1rem;
-                transition: all 0.3s ease;
-                background-color: #f9fafb;
-
-                &:focus {
-                    outline: none;
-                    border-color: #7c3aed;
-                    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-                    background-color: white;
-                }
-
-                &::placeholder {
-                    color: #9ca3af;
-                }
-            }
-        }
-
-        // Status Filter Buttons
-        &-status {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-
-            button {
-                padding: 0.75rem 1.5rem;
-                border: 2px solid #e5e7eb;
-                background: white;
-                border-radius: 12px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                color: #374151;
-                font-size: 0.875rem;
-
-                &:hover {
-                    border-color: #7c3aed;
-                    background: #faf5ff;
-                    transform: translateY(-1px);
-                }
-
-                &.active {
-                    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-                    color: white;
-                    border-color: transparent;
-                    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
-                }
-            }
-        }
-    }
-
-    // Stats Section
-    &__stats {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-
-        &-card {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-
-            &:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-            }
-
-            // Different colored accents for each card
-            &:nth-child(1) {
-                border-top: 4px solid #7c3aed;
-
-                &::before {
-                    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, transparent 100%);
-                }
-            }
-
-            &:nth-child(2) {
-                border-top: 4px solid #f59e0b;
-
-                &::before {
-                    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, transparent 100%);
-                }
-            }
-
-            &:nth-child(3) {
-                border-top: 4px solid #3b82f6;
-
-                &::before {
-                    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, transparent 100%);
-                }
-            }
-
-            &:nth-child(4) {
-                border-top: 4px solid #10b981;
-
-                &::before {
-                    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, transparent 100%);
-                }
-            }
-
-            // Background overlay
-            &::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                right: 0;
-                width: 100px;
-                height: 100px;
-                border-radius: 0 0 0 100px;
-            }
-
-            &-content {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                position: relative;
-                z-index: 1;
-
-                div {
-                    p {
-                        margin: 0 0 0.5rem 0;
-                        color: #6b7280;
-                        font-size: 0.875rem;
-                        font-weight: 500;
-                        text-transform: uppercase;
-                        letter-spacing: 0.05em;
-                    }
-
-                    h2 {
-                        margin: 0;
-                        font-size: 2.5rem;
-                        font-weight: 800;
-                        color: #1e293b;
-                    }
-                }
-
-                svg {
-                    opacity: 0.7;
-
-                    // Icon colors matching the card accents
-                    .cases__stats-card:nth-child(1) & {
-                        color: #7c3aed;
-                    }
-
-                    .cases__stats-card:nth-child(2) & {
-                        color: #f59e0b;
-                    }
-
-                    .cases__stats-card:nth-child(3) & {
-                        color: #3b82f6;
-                    }
-
-                    .cases__stats-card:nth-child(4) & {
-                        color: #10b981;
-                    }
-                }
-            }
-        }
-    }
-
-    // Cases List
-    &__list {
+    .case-items {
         display: flex;
         flex-direction: column;
         gap: 1rem;
 
-        &-item {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
-            position: relative;
+        .case-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 1rem;
+            background: #fff;
 
-            &:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-                border-color: #7c3aed;
-            }
-
-            // Header with title and menu
-            &-header {
+            .case-header {
                 display: flex;
                 justify-content: space-between;
-                align-items: flex-start;
-                margin-bottom: 1rem;
-
-                h3 {
-                    margin: 0;
-                    font-size: 1.25rem;
-                    font-weight: 600;
-                    color: #1e293b;
-                    line-height: 1.4;
-                }
-
-                button {
-                    background: none;
-                    border: none;
-                    color: #6b7280;
-                    cursor: pointer;
-                    padding: 0.5rem;
-                    border-radius: 8px;
-                    transition: all 0.3s ease;
-
-                    &:hover {
-                        background: #f3f4f6;
-                        color: #374151;
-                    }
-                }
-            }
-
-            // Badges container
-            &-badges {
-                display: flex;
-                gap: 0.75rem;
-                margin-bottom: 1rem;
-                flex-wrap: wrap;
-            }
-
-            // Description
-            &-description {
-                color: #6b7280;
-                line-height: 1.6;
-                margin: 0 0 1.5rem 0;
-            }
-
-            // Meta information
-            &-meta {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 1.5rem;
-                font-size: 0.875rem;
-                color: #6b7280;
-
-                span {
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                }
-
-                @media (max-width: 640px) {
-                    flex-direction: column;
-                    gap: 0.75rem;
-                }
-            }
-        }
-    }
-
-    // Status Badge Component
-    &__status-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-
-        // Status variants
-        &--open {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            color: #92400e;
-            border: 1px solid #f59e0b;
-        }
-
-        &--closed {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            color: #065f46;
-            border: 1px solid #10b981;
-        }
-
-        &--pending {
-            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-            color: #1e40af;
-            border: 1px solid #3b82f6;
-        }
-
-        &--in-review {
-            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
-            color: #6b21a8;
-            border: 1px solid #7c3aed;
-        }
-    }
-
-    // Priority Badge Component
-    &__priority-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-
-        // Priority variants
-        &--high {
-            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-            color: #991b1b;
-            border: 1px solid #ef4444;
-        }
-
-        &--medium {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            color: #92400e;
-            border: 1px solid #f59e0b;
-        }
-
-        &--low {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            color: #166534;
-            border: 1px solid #22c55e;
-        }
-    }
-
-    // Empty State
-    &__empty {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 400px;
-        background: white;
-        border-radius: 16px;
-        border: 2px dashed #e5e7eb;
-
-        &-content {
-            text-align: center;
-            max-width: 400px;
-            padding: 2rem;
-
-            svg {
-                color: #9ca3af;
-                margin-bottom: 1.5rem;
-            }
-
-            h3 {
-                font-size: 1.5rem;
-                font-weight: 600;
-                color: #374151;
-                margin: 0 0 1rem 0;
-            }
-
-            p {
-                color: #6b7280;
-                margin: 0 0 2rem 0;
-                line-height: 1.6;
-            }
-
-            button {
-                display: inline-flex;
                 align-items: center;
+            }
+
+            .case-badges {
+                display: flex;
                 gap: 0.5rem;
-                padding: 1rem 2rem;
-                background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-                color: white;
-                border: none;
-                border-radius: 12px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
-
-                &:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
-                }
+                margin: 0.5rem 0;
             }
-        }
-    }
 
-    // Responsive Design
-    @media (max-width: 640px) {
-        padding: 1rem;
-
-        &__filters {
-            padding: 1.5rem;
-
-            &-container {
+            .case-footer {
+                display: flex;
                 gap: 1rem;
-            }
-
-            &-status {
-                justify-content: center;
-
-                button {
-                    padding: 0.5rem 1rem;
-                    font-size: 0.8rem;
-                }
+                font-size: 0.85rem;
+                color: #666;
+                margin-top: 0.5rem;
             }
         }
+    }
 
-        &__stats {
-            grid-template-columns: 1fr;
-            gap: 1rem;
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
 
-            &-card {
-                padding: 1.5rem;
-
-                &-content div h2 {
-                    font-size: 2rem;
-                }
-            }
+        &.status-open {
+            background: #e0f2fe;
+            color: #0369a1;
         }
 
-        &__list {
-            &-item {
-                padding: 1.5rem;
-
-                &-header h3 {
-                    font-size: 1.125rem;
-                }
-
-                &-badges {
-                    gap: 0.5rem;
-                }
-
-                &-meta {
-                    font-size: 0.8rem;
-                }
-            }
+        &.status-closed {
+            background: #ecfdf5;
+            color: #047857;
         }
 
-        &__status-badge,
-        &__priority-badge {
-            font-size: 0.7rem;
-            padding: 0.4rem 0.8rem;
+        &.status-pending {
+            background: #fef9c3;
+            color: #92400e;
+        }
+
+        &.status-in-review {
+            background: #f3e8ff;
+            color: #6b21a8;
         }
     }
 
-    // Animation keyframes
-    @keyframes slideInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
+    .priority-badge {
+        font-weight: bold;
+
+        &.priority-low {
+            color: #16a34a;
         }
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
+        &.priority-medium {
+            color: #d97706;
         }
 
-        to {
-            opacity: 1;
+        &.priority-high {
+            color: #dc2626;
+        }
+
+        &.priority-urgent {
+            color: #991b1b;
         }
     }
 
-    @keyframes pulse {
+    .no-cases {
+        text-align: center;
+        margin-top: 2rem;
 
-        0%,
-        100% {
-            opacity: 1;
+        h3 {
+            margin: 0.5rem 0;
         }
 
-        50% {
-            opacity: 0.8;
-        }
-    }
-
-    // Apply animations
-    &__stats-card,
-    &__list-item,
-    &__filters {
-        animation: slideInUp 0.6s ease forwards;
-    }
-
-    &__header {
-        animation: fadeIn 0.8s ease forwards;
-    }
-
-    // Stagger animation delays
-    &__stats-card {
-        &:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        &:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        &:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        &:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-    }
-
-    &__list-item {
-        &:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        &:nth-child(2) {
-            animation-delay: 0.15s;
-        }
-
-        &:nth-child(3) {
-            animation-delay: 0.2s;
-        }
-
-        &:nth-child(4) {
-            animation-delay: 0.25s;
-        }
-
-        &:nth-child(5) {
-            animation-delay: 0.3s;
-        }
-    }
-
-    // Loading state animation
-    &__loading {
-
-        .cases__stats-card,
-        .cases__list-item {
-            animation: pulse 1.5s ease-in-out infinite;
+        p {
+            color: #666;
+            margin-bottom: 1rem;
         }
     }
 }

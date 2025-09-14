@@ -9,10 +9,54 @@ import {
     ArrowRight,
 } from "lucide-react";
 import { format } from "date-fns";
-import "./GlobalSearch.scss";
+import "../../Styling/GlobalSearch.scss"
+
+// TypeScript interfaces
+interface Client {
+    id: string;
+    name: string;
+    email: string;
+    company?: string;
+    type: "client";
+    lastActivity: Date;
+}
+
+interface Case {
+    id: string;
+    title: string;
+    description: string;
+    status: "open" | "in-review" | "closed";
+    client: string;
+    type: "case";
+    lastActivity: Date;
+}
+
+interface Document {
+    id: string;
+    name: string;
+    size: string;
+    case: string;
+    type: "document";
+    lastActivity: Date;
+}
+
+type SearchResult = Client | Case | Document;
+type ResultType = "client" | "case" | "document";
+type FilterType = "all" | "clients" | "cases" | "documents";
+
+interface ResultCardProps {
+    result: SearchResult;
+    type: ResultType;
+}
+
+interface SearchResults {
+    clients: Client[];
+    cases: Case[];
+    documents: Document[];
+}
 
 // Mock search results
-const mockResults = {
+const mockResults: SearchResults = {
     clients: [
         {
             id: "1",
@@ -72,7 +116,7 @@ const mockResults = {
 };
 
 // Result Card Component
-const ResultCard = ({ result, type }) => {
+const ResultCard: React.FC<ResultCardProps> = ({ result, type }) => {
     const icons = {
         client: Users,
         case: Scale,
@@ -90,16 +134,18 @@ const ResultCard = ({ result, type }) => {
                             <Icon className="icon" />
                         </div>
                         <div className="result-info">
-                            <h3 className="result-title">{result.name || result.title}</h3>
+                            <h3 className="result-title">
+                                {"name" in result ? result.name : result.title}
+                            </h3>
 
-                            {type === "client" && (
+                            {type === "client" && "email" in result && (
                                 <div className="client-details">
                                     <p className="client-email">{result.email}</p>
                                     {result.company && <p className="client-company">{result.company}</p>}
                                 </div>
                             )}
 
-                            {type === "case" && (
+                            {type === "case" && "description" in result && (
                                 <div className="case-details">
                                     <p className="case-description">{result.description}</p>
                                     <div className="case-meta">
@@ -111,7 +157,7 @@ const ResultCard = ({ result, type }) => {
                                 </div>
                             )}
 
-                            {type === "document" && (
+                            {type === "document" && "size" in result && (
                                 <div className="document-details">
                                     <p className="document-case">{result.case}</p>
                                     <p className="document-size">{result.size}</p>
@@ -136,12 +182,12 @@ const ResultCard = ({ result, type }) => {
 };
 
 // Main Search Component
-const GlobalSearch = () => {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedFilter, setSelectedFilter] = useState("all");
-    const [isSearching, setIsSearching] = useState(false);
+const GlobalSearch: React.FC = () => {
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [selectedFilter, setSelectedFilter] = useState<FilterType>("all");
+    const [isSearching, setIsSearching] = useState<boolean>(false);
 
-    const handleSearch = async (query) => {
+    const handleSearch = async (query: string): Promise<void> => {
         if (!query.trim()) return;
         setIsSearching(true);
         setTimeout(() => {
@@ -149,7 +195,7 @@ const GlobalSearch = () => {
         }, 500);
     };
 
-    const getFilteredResults = () => {
+    const getFilteredResults = (): SearchResults => {
         if (!searchQuery.trim())
             return { clients: [], cases: [], documents: [] };
 
@@ -224,7 +270,7 @@ const GlobalSearch = () => {
                         <span className="filter-text">Filter by:</span>
                     </div>
                     <div className="filter-buttons">
-                        {["all", "clients", "cases", "documents"].map((filter) => (
+                        {(["all", "clients", "cases", "documents"] as const).map((filter) => (
                             <button
                                 key={filter}
                                 className={`filter-btn ${selectedFilter === filter ? "active" : ""}`}

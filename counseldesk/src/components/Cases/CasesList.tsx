@@ -13,17 +13,14 @@ import {
 } from "lucide-react";
 import { useStore } from "../../Store/userstore";
 import { format } from "date-fns";
-import "../../Styling/CasesList.scss"
+import "../../Styling/CasesList.scss";
 
 interface StatusBadgeProps {
     status: string;
 }
 
 const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
-    const variants: Record<
-        string,
-        { text: string; icon: React.ElementType }
-    > = {
+    const variants: Record<string, { text: string; icon: React.ElementType }> = {
         open: { text: "Open", icon: Scale },
         closed: { text: "Closed", icon: CheckCircle },
         pending: { text: "Pending", icon: Clock },
@@ -34,7 +31,7 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
     const Icon = variant.icon;
 
     return (
-        <span>
+        <span className={`status-badge status-${status}`}>
             <Icon size={14} /> {variant.text}
         </span>
     );
@@ -45,7 +42,7 @@ interface PriorityBadgeProps {
 }
 
 const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority }) => {
-    return <span>{priority.toUpperCase()}</span>;
+    return <span className={`priority-badge priority-${priority}`}>{priority.toUpperCase()}</span>;
 };
 
 const CasesList: React.FC = () => {
@@ -70,66 +67,65 @@ const CasesList: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="cases-list">
             {/* Header */}
-            <div>
+            <div className="cases-header">
                 <div>
                     <h1>Cases</h1>
                     <p>Manage and track all legal cases</p>
                 </div>
-                <button>
+                <button className="btn-primary">
                     <Plus size={16} />
                     New Case
                 </button>
             </div>
 
             {/* Filters */}
-            <div>
-                <div>
-                    <div>
-                        <Search size={16} />
-                        <input
-                            type="text"
-                            placeholder="Search cases..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        {["all", "open", "in-review", "closed"].map((status) => (
-                            <button
-                                key={status}
-                                onClick={() => setStatusFilter(status)}
-                            >
-                                {status.charAt(0).toUpperCase() + status.slice(1)} (
-                                {status === "all"
-                                    ? cases.length
-                                    : cases.filter((c) => c.status === status).length}
-                                )
-                            </button>
-                        ))}
-                    </div>
+            <div className="cases-filters">
+                <div className="search-box">
+                    <Search size={16} />
+                    <input
+                        type="text"
+                        placeholder="Search cases..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+                <div className="status-filters">
+                    {["all", "open", "in-review", "closed"].map((status) => (
+                        <button
+                            key={status}
+                            className={statusFilter === status ? "active" : ""}
+                            onClick={() => setStatusFilter(status)}
+                        >
+                            {status.charAt(0).toUpperCase() + status.slice(1)} (
+                            {status === "all"
+                                ? cases.length
+                                : cases.filter((c) => c.status === status).length}
+                            )
+                        </button>
+                    ))}
                 </div>
             </div>
 
             {/* Stats */}
-            <div>
-                <div>
+            <div className="cases-stats">
+                <div className="stat-card">
                     <p>Total Cases</p>
                     <h2>{cases.length}</h2>
                     <Scale size={24} />
                 </div>
-                <div>
+                <div className="stat-card">
                     <p>Open</p>
                     <h2>{cases.filter((c) => c.status === "open").length}</h2>
                     <AlertTriangle size={24} />
                 </div>
-                <div>
+                <div className="stat-card">
                     <p>In Review</p>
                     <h2>{cases.filter((c) => c.status === "in-review").length}</h2>
                     <Hourglass size={24} />
                 </div>
-                <div>
+                <div className="stat-card">
                     <p>Closed</p>
                     <h2>{cases.filter((c) => c.status === "closed").length}</h2>
                     <CheckCircle size={24} />
@@ -137,19 +133,19 @@ const CasesList: React.FC = () => {
             </div>
 
             {/* Cases List */}
-            <div>
+            <div className="case-items">
                 {filteredCases.map((case_) => (
-                    <div key={case_.id}>
-                        <div>
+                    <div key={case_.id} className="case-card">
+                        <div className="case-header">
                             <h3>{case_.title}</h3>
                             <MoreVertical size={18} />
                         </div>
-                        <div>
+                        <div className="case-badges">
                             <StatusBadge status={case_.status} />
                             <PriorityBadge priority={case_.priority} />
                         </div>
                         <p>{case_.description}</p>
-                        <div>
+                        <div className="case-footer">
                             <span>
                                 <User size={14} /> {getClientName(case_.clientId)}
                             </span>
@@ -168,7 +164,7 @@ const CasesList: React.FC = () => {
             </div>
 
             {filteredCases.length === 0 && (
-                <div>
+                <div className="no-cases">
                     <Scale size={32} />
                     <h3>No cases found</h3>
                     <p>
@@ -176,7 +172,7 @@ const CasesList: React.FC = () => {
                             ? "Try adjusting your search criteria"
                             : "Get started by creating your first case"}
                     </p>
-                    <button>
+                    <button className="btn-primary">
                         <Plus size={16} /> New Case
                     </button>
                 </div>
