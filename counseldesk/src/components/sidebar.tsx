@@ -7,12 +7,15 @@ import {
     BarChart3,
     Search,
     ChevronLeft,
-    ChevronRight
+    ChevronRight,
+    Calendar
 } from 'lucide-react';
 import '../Styling/sidebar.scss';
 
 interface SidebarProps {
     className?: string;
+    activeView: string;
+    onViewChange: (view: string) => void;
 }
 
 interface NavItem {
@@ -22,9 +25,12 @@ interface NavItem {
     path: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
+const Sidebar: React.FC<SidebarProps> = ({
+    className = '',
+    activeView,
+    onViewChange
+}) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [activeItem, setActiveItem] = useState('dashboard');
 
     const navItems: NavItem[] = [
         { id: 'dashboard', label: 'Dashboard', icon: Home, path: '/dashboard' },
@@ -32,12 +38,12 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
         { id: 'cases', label: 'Cases', icon: Briefcase, path: '/cases' },
         { id: 'clients', label: 'Clients', icon: Users, path: '/clients' },
         { id: 'analytics', label: 'Analytics', icon: BarChart3, path: '/analytics' },
+        { id: 'calendar', label: 'Calendar', icon: Calendar, path: '/calendar' },
         { id: 'search', label: 'Search', icon: Search, path: '/search' },
     ];
 
     const handleItemClick = (itemId: string) => {
-        setActiveItem(itemId);
-        // You can add navigation logic here
+        onViewChange(itemId);
         console.log(`Navigating to: ${itemId}`);
     };
 
@@ -50,7 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
             {/* Header */}
             <div className="sidebar__header">
                 <div className="sidebar__logo">
-                    {!isCollapsed && <span className="sidebar__logo-text">LegalApp</span>}
+                    {!isCollapsed && <span className="sidebar__logo-text">CounselDesk</span>}
                 </div>
                 <button
                     className="sidebar__toggle"
@@ -69,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
                         return (
                             <li key={item.id} className="sidebar__nav-item">
                                 <button
-                                    className={`sidebar__nav-link ${activeItem === item.id ? 'sidebar__nav-link--active' : ''
+                                    className={`sidebar__nav-link ${activeView === item.id ? 'sidebar__nav-link--active' : ''
                                         }`}
                                     onClick={() => handleItemClick(item.id)}
                                     title={isCollapsed ? item.label : undefined}
